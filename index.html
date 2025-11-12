@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nishit Kumar - Full Stack Developer & Strategic Analyst</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0a0a0a;
+            --secondary: #1a1a1a;
+            --accent: #3b82f6;
+            --text: #e5e5e5;
+            --text-muted: #a3a3a3;
+            --border: #2a2a2a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header/Hero Section */
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .hero-content {
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content {
+            transform: translateY(20px);
+        }
+
+        .label {
+            font-size: 0.875rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: clamp(1.125rem, 2vw, 1.5rem);
+            color: var(--text-muted);
+            max-width: 700px;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 6rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-number {
+            font-size: 0.875rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-description {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            max-width: 600px;
+        }
+
+        /* Philosophy Section */
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .philosophy-card {
+            background: var(--secondary);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .philosophy-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .philosophy-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .philosophy-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .philosophy-card p {
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* Expertise Section */
+        .expertise-categories {
+            display: grid;
+            gap: 3rem;
+        }
+
+        .expertise-category {
+            padding: 2rem;
+            background: var(--secondary);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .expertise-category h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .tech-item {
+            padding: 1rem;
+            background: var(--primary);
+            border-radius: 0.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .tech-item:hover {
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--secondary);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--primary);
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            color: var(--accent);
+            border: 1px solid var(--border);
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .project-card p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .project-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .project-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Journey Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 3rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3.5rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid var(--primary);
+        }
+
+        .timeline-year {
+            font-size: 0.875rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .timeline-company {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .timeline-description {
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .timeline-description ul {
+            margin-top: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-description li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--secondary);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .contact-card a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.125rem;
+        }
+
+        .contact-card a:hover {
+            color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        /* Scroll Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--accent);
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            section {
+                padding: 4rem 0;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .timeline {
+                padding-left: 2rem;
+            }
+
+            .timeline-item::before {
+                left: -2.5rem;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Selection */
+        ::selection {
+            background: var(--accent);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <header>
+            <div class="hero-content">
+                <div class="label">Full Stack Developer • Strategic Analyst • Problem Solver</div>
+                <h1>
+                    Nishit Kumar<br>
+                    <span class="gradient-text">Building Solutions Through Deep Analysis</span>
+                </h1>
+                <p class="hero-description">
+                    I transform complex business challenges into elegant technical solutions. With 24+ years 
+                    spanning software development, business leadership, and strategic consulting, I bring a 
+                    unique analytical approach that combines technological expertise with business acumen.
+                </p>
+                <div class="cta-group">
+                    <a href="#contact" class="btn btn-primary">Start a Conversation</a>
+                    <a href="#expertise" class="btn btn-secondary">Explore My Work</a>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-number">24+</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100+</span>
+                        <span class="stat-label">Projects Delivered</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">10+</span>
+                        <span class="stat-label">Technologies</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">Global</span>
+                        <span class="stat-label">Client Base</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Philosophy Section -->
+        <section id="philosophy">
+            <div class="section-header">
+                <div class="section-number">// 01</div>
+                <h2>My Approach</h2>
+                <p class="section-description">
+                    I don't just write code. I analyze, strategize, and architect solutions that align with 
+                    your business objectives and scale with your growth.
+                </p>
+            </div>
+            <div class="philosophy-grid">
+                <div class="philosophy-card">
+                    <div class="philosophy-icon">🔍</div>
+                    <h3>Deep Analysis</h3>
+                    <p>
+                        Every project begins with comprehensive research and analysis. I dive deep into your 
+                        requirements, business context, and technical constraints to understand the complete picture.
+                    </p>
+                </div>
+                <div class="philosophy-card">
+                    <div class="philosophy-icon">🎯</div>
+                    <h3>Strategic Thinking</h3>
+                    <p>
+                        Drawing from my MBA from IIM Bangalore and years of business leadership, I ensure 
+                        technical decisions support your strategic goals and deliver measurable ROI.
+                    </p>
+                </div>
+                <div class="philosophy-card">
+                    <div class="philosophy-icon">⚡</div>
+                    <h3>Execution Excellence</h3>
+                    <p>
+                        Combining vast technical expertise with proven project management skills, I deliver 
+                        high-quality solutions on time, with clean code and comprehensive documentation.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Expertise Section -->
+        <section id="expertise">
+            <div class="section-header">
+                <div class="section-number">// 02</div>
+                <h2>Expertise</h2>
+                <p class="section-description">
+                    Specialized in WordPress custom development, full-stack web applications, and emerging 
+                    technologies including AI/ML and data science.
+                </p>
+            </div>
+            <div class="expertise-categories">
+                <div class="expertise-category">
+                    <h3>WordPress Custom Development</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">Custom Plugins</div>
+                        <div class="tech-item">Theme Development</div>
+                        <div class="tech-item">WooCommerce</div>
+                        <div class="tech-item">Gutenberg Blocks</div>
+                        <div class="tech-item">REST API</div>
+                        <div class="tech-item">Webhooks</div>
+                        <div class="tech-item">Payment Integration</div>
+                        <div class="tech-item">Performance</div>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3>Full Stack Development</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">React</div>
+                        <div class="tech-item">Next.js</div>
+                        <div class="tech-item">Node.js</div>
+                        <div class="tech-item">Express.js</div>
+                        <div class="tech-item">Django</div>
+                        <div class="tech-item">Flask</div>
+                        <div class="tech-item">Python</div>
+                        <div class="tech-item">JavaScript</div>
+                        <div class="tech-item">PHP</div>
+                        <div class="tech-item">TypeScript</div>
+                        <div class="tech-item">GraphQL</div>
+                        <div class="tech-item">Docker</div>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3>Data Science & AI</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">LLM Integration</div>
+                        <div class="tech-item">Machine Learning</div>
+                        <div class="tech-item">PyTorch</div>
+                        <div class="tech-item">TensorFlow</div>
+                        <div class="tech-item">Pandas</div>
+                        <div class="tech-item">NumPy</div>
+                        <div class="tech-item">Scikit-learn</div>
+                        <div class="tech-item">Data Analysis</div>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3>Cloud & Infrastructure</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">AWS</div>
+                        <div class="tech-item">Google Cloud</div>
+                        <div class="tech-item">MySQL</div>
+                        <div class="tech-item">MongoDB</div>
+                        <div class="tech-item">NGINX</div>
+                        <div class="tech-item">Apache</div>
+                        <div class="tech-item">CI/CD</div>
+                        <div class="tech-item">DevOps</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Projects Section -->
+        <section id="projects">
+            <div class="section-header">
+                <div class="section-number">// 03</div>
+                <h2>Featured Work</h2>
+                <p class="section-description">
+                    A selection of recent projects showcasing custom development, integrations, 
+                    and innovative solutions.
+                </p>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="tag">WordPress</span>
+                            <span class="tag">WooCommerce</span>
+                            <span class="tag">Custom Plugin</span>
+                            <span class="tag">React</span>
+                        </div>
+                        <h3>DTF Express & Addon Plugins</h3>
+                        <p>
+                            Comprehensive e-commerce solution featuring custom product creation, REST API-based 
+                            React frontend and admin screens, dynamic pricing engine, discount management, 
+                            campaign tracking, custom order processing, and multiple API integrations.
+                        </p>
+                        <a href="https://printpunk.com/" target="_blank" class="project-link">
+                            View Live Site →
+                        </a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="tag">WordPress</span>
+                            <span class="tag">WooCommerce</span>
+                            <span class="tag">API Integration</span>
+                            <span class="tag">Custom Checkout</span>
+                        </div>
+                        <h3>Smoobu Sync & Single Page Checkout</h3>
+                        <p>
+                            Developed a sophisticated booking system with real-time synchronization with Smoobu 
+                            API, custom single-page checkout experience, and seamless integration with existing 
+                            WooCommerce infrastructure for a luxury accommodation booking platform.
+                        </p>
+                        <a href="https://book-a-bubble.de/en/" target="_blank" class="project-link">
+                            View Live Site →
+                        </a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">PyTorch</span>
+                            <span class="tag">IoT Data</span>
+                        </div>
+                        <h3>Golf Swing Prediction Model</h3>
+                        <p>
+                            Built an advanced machine learning model to predict golf swing patterns from Apple 
+                            Watch sensor data. Implemented multiple signal processing techniques including 
+                            Butterworth filters, VQF, and Savitzky-Golay filters, utilizing PyTorch and 
+                            TensorFlow for model training.
+                        </p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="tag">LLM</span>
+                            <span class="tag">Django</span>
+                            <span class="tag">React</span>
+                            <span class="tag">React Native</span>
+                        </div>
+                        <h3>AI-Powered Park Exploration Planner</h3>
+                        <p>
+                            Created an intelligent application leveraging LLaMA 3.1 to help park visitors design 
+                            optimal exploration routes. Built with Django backend and cross-platform frontend 
+                            using React and React Native for seamless mobile and web experiences.
+                        </p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="tag">WordPress</span>
+                            <span class="tag">Gutenberg</span>
+                            <span class="tag">Custom Plugin</span>
+                        </div>
+                        <h3>Webinar Management System</h3>
+                        <p>
+                            Developed a comprehensive Gutenberg-based webinar management plugin with custom 
+                            blocks, registration handling, automated email notifications, and seamless 
+                            integration with popular webinar platforms.
+                        </p>
+                        <a href="https://github.com/dhitimedin/st-webinar-management" target="_blank" class="project-link">
+                            View on GitHub →
+                        </a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="tag">WordPress</span>
+                            <span class="tag">Custom Theme</span>
+                            <span class="tag">Full Site</span>
+                        </div>
+                        <h3>NGO & Rural Development Websites</h3>
+                        <p>
+                            Designed and developed complete WordPress solutions including custom themes, plugins, 
+                            and content management systems for non-profit organizations focused on rural 
+                            development and sustainable energy initiatives.
+                        </p>
+                        <a href="https://mithunrural.org" target="_blank" class="project-link">
+                            View Mithun Rural →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Professional Journey -->
+        <section id="journey">
+            <div class="section-header">
+                <div class="section-number">// 04</div>
+                <h2>Professional Journey</h2>
+                <p class="section-description">
+                    From engineering and sales leadership at Microsoft to entrepreneurship and 
+                    freelance development, my diverse background brings unique perspectives to every project.
+                </p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2020 - Present</div>
+                    <h3>Freelance Developer</h3>
+                    <div class="timeline-company">Codeable • Remote</div>
+                    <div class="timeline-description">
+                        Providing custom WordPress, full-stack development, and AI/ML solutions to clients 
+                        globally. Specializing in complex plugin development, API integrations, and data-driven 
+                        applications. Continuously expanding expertise in modern frameworks and emerging technologies.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2017 - 2020</div>
+                    <h3>National Sales Head</h3>
+                    <div class="timeline-company">Times Internet • TimesJobs & TechGig</div>
+                    <div class="timeline-description">
+                        Led sales and marketing for India's leading job board and developer community platform.
+                        <ul>
+                            <li>Grew TechGig business by 400% through strategic repositioning</li>
+                            <li>Improved TimesJobs profitability by optimizing pricing and retention strategies</li>
+                            <li>Managed team of 120+ people, reducing attrition by 50%</li>
+                            <li>Onboarded top brands: Google, Microsoft, AWS, Credit Suisse, Deloitte</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2015 - 2017</div>
+                    <h3>VP Sales and Partnership</h3>
+                    <div class="timeline-company">3LOQ Labs • Mumbai</div>
+                    <div class="timeline-description">
+                        Led business development for a big data analytics startup focused on transaction 
+                        intelligence. Created data pipelines and AI models, managed partnerships with HDFC Bank, 
+                        Hungama, IRCTC, and expanded operations across India and South East Asia.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2013 - 2015</div>
+                    <h3>Co-founder & India Head</h3>
+                    <div class="timeline-company">GlocalEdge Consultants • Noida</div>
+                    <div class="timeline-description">
+                        Built digital marketing services company and SaaS-based social media management tool. 
+                        Achieved 6X revenue growth, 90% customer retention, serving government ministries and 
+                        private enterprises.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2006 - 2012</div>
+                    <h3>Developer Tools Sales Lead</h3>
+                    <div class="timeline-company">Microsoft Corporation India</div>
+                    <div class="timeline-description">
+                        Progressed through multiple leadership roles across regions, growing business from $10M 
+                        to $20M. Successfully penetrated government institutions (ISRO, DRDO, Ministry of Defence) 
+                        and major enterprises across banking, telecom, manufacturing, and pharmaceutical sectors.
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2000 - 2006</div>
+                    <h3>Software Engineer & Pre-Sales Consultant</h3>
+                    <div class="timeline-company">Wipro Technologies & Borland Software</div>
+                    <div class="timeline-description">
+                        Started career as software engineer working with J2EE, C++, and various enterprise 
+                        technologies. Transitioned to pre-sales, winning multi-million dollar contracts and 
+                        supporting 100% year-on-year growth through technical expertise and proposal development.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education & Certifications -->
+        <section id="education">
+            <div class="section-header">
+                <div class="section-number">// 05</div>
+                <h2>Education & Continuous Learning</h2>
+            </div>
+            <div class="philosophy-grid">
+                <div class="philosophy-card">
+                    <h3>MBA (PGSEM)</h3>
+                    <p style="color: var(--accent); font-weight: 600; margin-bottom: 0.5rem;">
+                        Indian Institute of Management Bangalore
+                    </p>
+                    <p>2006</p>
+                </div>
+                <div class="philosophy-card">
+                    <h3>B.E. Computer Science</h3>
+                    <p style="color: var(--accent); font-weight: 600; margin-bottom: 0.5rem;">
+                        Birla Institute of Technology Mesra
+                    </p>
+                    <p>2000 • Captain of Table Tennis & Volleyball teams</p>
+                </div>
+                <div class="philosophy-card">
+                    <h3>Continuous Learning</h3>
+                    <p>
+                        <strong>AI/ML:</strong> MIT Professional X, Stanford, John Hopkins<br>
+                        <strong>Mathematics:</strong> MIT OCW (Linear Algebra, Statistics, Calculus)<br>
+                        <strong>Cloud & Security:</strong> Cybersecurity (MIT), Cloud Computing (edX)
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="section-header">
+                <div class="section-number">// 06</div>
+                <h2>Let's Work Together</h2>
+                <p class="section-description">
+                    I'm available for freelance projects, consulting, and full-time opportunities. 
+                    Let's discuss how I can help solve your challenges.
+                </p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <h3>Email</h3>
+                    <a href="mailto:nishitk@sagacitastech.com">nishitk@sagacitastech.com</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">📱</div>
+                    <h3>Phone</h3>
+                    <a href="tel:+919871188327">+91 9871188327</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">📍</div>
+                    <h3>Location</h3>
+                    <a>Gurugram, India</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Nishit Kumar. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+                Built with analysis, strategy, and code.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and timeline items
+        document.querySelectorAll('.philosophy-card, .project-card, .timeline-item, .expertise-category').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
