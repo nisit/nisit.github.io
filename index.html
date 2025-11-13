@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nishit Kumar - Full Stack Developer & Strategic Analyst</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
+        /* Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -14,25 +18,44 @@
 
         :root {
             --primary: #0a0a0a;
-            --secondary: #1a1a1a;
-            --accent: #3b82f6;
-            --text: #e5e5e5;
-            --text-muted: #a3a3a3;
-            --border: #2a2a2a;
+            --secondary: #161616;
+            --tertiary: #1f1f1f;
+            --accent: #00e676; /* Vibrant Green */
+            --accent-dark: #00c853;
+            --text: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --border: #2c2c2c;
+            --gradient-start: #00e676;
+            --gradient-end: #00a0f0; /* Light Blue */
+            --shadow-color: rgba(0, 230, 118, 0.2);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: var(--primary);
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
+        }
+
+        /* Utility Classes */
+        .text-gradient {
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .mono {
+            font-family: 'IBM Plex Mono', monospace;
         }
 
         /* Header/Hero Section */
@@ -42,12 +65,37 @@
             flex-direction: column;
             justify-content: center;
             position: relative;
-            padding: 2rem 0;
+            padding: 4rem 0;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+            overflow: hidden;
+            isolation: isolate; /* To ensure z-index of children */
+        }
+
+        .hero-background-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(to right, var(--tertiary) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--tertiary) 1px, transparent 1px);
+            background-size: 80px 80px;
+            opacity: 0.1;
+            z-index: -1;
+            animation: panBackground 60s linear infinite;
+        }
+
+        @keyframes panBackground {
+            from { background-position: 0 0; }
+            to { background-position: -800px -800px; }
         }
 
         .hero-content {
             opacity: 0;
-            animation: fadeInUp 1s ease forwards;
+            animation: fadeInUp 1.2s ease forwards 0.3s;
+            position: relative;
+            z-index: 1;
         }
 
         @keyframes fadeInUp {
@@ -58,68 +106,83 @@
         }
 
         .hero-content {
-            transform: translateY(20px);
+            transform: translateY(30px);
         }
 
         .label {
-            font-size: 0.875rem;
-            letter-spacing: 0.1em;
+            font-size: 0.95rem;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
             color: var(--text-muted);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
         }
 
         h1 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-size: clamp(2.8rem, 8vw, 5.5rem);
             font-weight: 700;
             line-height: 1.1;
             margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            letter-spacing: -0.03em;
         }
 
         .hero-description {
-            font-size: clamp(1.125rem, 2vw, 1.5rem);
+            font-size: clamp(1.15rem, 2vw, 1.65rem);
             color: var(--text-muted);
-            max-width: 700px;
-            margin-bottom: 2rem;
-            line-height: 1.8;
+            max-width: 750px;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
         }
 
         .cta-group {
             display: flex;
-            gap: 1rem;
+            gap: 1.25rem;
             flex-wrap: wrap;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
 
         .btn {
-            padding: 1rem 2rem;
-            border-radius: 0.5rem;
+            padding: 1.1rem 2.4rem;
+            border-radius: 0.6rem;
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: inline-block;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             border: none;
-            font-size: 1rem;
+            font-size: 1.05rem;
+            gap: 0.75rem;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-primary {
             background: var(--accent);
-            color: white;
+            color: var(--primary);
+            box-shadow: 0 10px 25px var(--shadow-color);
         }
 
         .btn-primary:hover {
-            background: #2563eb;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+            background: var(--accent-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px var(--shadow-color);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
         }
 
         .btn-secondary {
@@ -131,144 +194,348 @@
         .btn-secondary:hover {
             border-color: var(--accent);
             color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 230, 118, 0.1);
         }
 
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 2rem;
-            padding: 2rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2.5rem;
+            padding-top: 2.5rem;
             border-top: 1px solid var(--border);
         }
 
         .stat-item {
-            text-align: center;
+            text-align: left;
+            position: relative;
         }
 
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
             color: var(--accent);
             display: block;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
         }
 
         .stat-label {
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
+            font-weight: 500;
         }
 
         /* Section Styling */
         section {
-            padding: 6rem 0;
+            padding: 8rem 0;
             border-top: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
         }
 
         .section-header {
-            margin-bottom: 4rem;
+            margin-bottom: 5rem;
+            position: relative;
+            z-index: 1;
         }
 
         .section-number {
-            font-size: 0.875rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1rem;
             color: var(--accent);
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.1em;
         }
 
         h2 {
-            font-size: clamp(2rem, 5vw, 3rem);
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
             letter-spacing: -0.02em;
+            line-height: 1.2;
         }
 
         .section-description {
-            font-size: 1.125rem;
+            font-size: 1.2rem;
             color: var(--text-muted);
-            max-width: 600px;
+            max-width: 650px;
+            line-height: 1.7;
         }
 
         /* Philosophy Section */
         .philosophy-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
         }
 
         .philosophy-card {
             background: var(--secondary);
-            padding: 2rem;
+            padding: 2.5rem;
             border-radius: 1rem;
             border: 1px solid var(--border);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .philosophy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 10% 10%, rgba(0, 230, 118, 0.05), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .philosophy-card:hover::before {
+            opacity: 1;
         }
 
         .philosophy-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
+            border-color: var(--accent-dark);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 230, 118, 0.15);
         }
 
         .philosophy-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            margin-bottom: 1.25rem;
+            color: var(--accent);
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .philosophy-card:hover .philosophy-icon {
+            transform: scale(1.1);
         }
 
         .philosophy-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             margin-bottom: 1rem;
             color: var(--text);
+            font-weight: 600;
         }
 
         .philosophy-card p {
             color: var(--text-muted);
-            line-height: 1.8;
+            line-height: 1.7;
+            font-size: 1.05rem;
         }
 
-        /* Expertise Section */
-        .expertise-categories {
+        /* Why Work With Me Section */
+        .value-props {
             display: grid;
-            gap: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
         }
 
-        .expertise-category {
-            padding: 2rem;
+        .value-card {
+            background: var(--secondary);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-card:hover {
+            border-color: var(--accent-dark);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 230, 118, 0.15);
+        }
+
+        .value-number {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .value-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .value-card p {
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        /* Process Section */
+        .process-steps {
+            display: grid;
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .process-step {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2.5rem;
+            padding: 2.5rem;
             background: var(--secondary);
             border-radius: 1rem;
             border: 1px solid var(--border);
+            align-items: start;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .process-step:hover {
+            border-color: var(--accent-dark);
+            box-shadow: 0 10px 20px rgba(0, 230, 118, 0.1);
+        }
+
+        .step-number {
+            width: 3.5rem;
+            height: 3.5rem;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .step-content h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .step-content p {
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        /* Tech Radar Section */
+        #techRadarSection {
+            background: var(--secondary);
+            padding-bottom: 8rem; /* Ensure space below for charts */
+        }
+
+        .radar-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3.5rem;
+            background: var(--tertiary);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        #techRadar {
+            max-height: 600px;
+        }
+
+        .radar-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .legend-dot {
+            width: 1.1rem;
+            height: 1.1rem;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 2px solid var(--primary);
+        }
+
+        /* Tech Grid */
+        .expertise-categories {
+            display: grid;
+            gap: 3.5rem;
+            margin-top: 5rem;
+        }
+
+        .expertise-category {
+            padding: 2.5rem;
+            background: var(--secondary);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .expertise-category:hover {
+            border-color: var(--accent-dark);
+            box-shadow: 0 10px 20px rgba(0, 230, 118, 0.1);
         }
 
         .expertise-category h3 {
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            margin-bottom: 1.75rem;
             color: var(--accent);
+            font-weight: 600;
         }
 
         .tech-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.2rem;
         }
 
         .tech-item {
-            padding: 1rem;
-            background: var(--primary);
-            border-radius: 0.5rem;
+            padding: 1rem 1.25rem;
+            background: var(--tertiary);
+            border-radius: 0.6rem;
             text-align: center;
-            font-size: 0.875rem;
-            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
             border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-family: 'IBM Plex Mono', monospace;
         }
 
         .tech-item:hover {
             border-color: var(--accent);
-            transform: scale(1.05);
+            transform: translateY(-3px) scale(1.02);
+            color: var(--accent);
+            background: rgba(0, 230, 118, 0.05);
         }
 
         /* Projects Section */
         .projects-grid {
             display: grid;
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
         }
 
         .project-card {
@@ -276,43 +543,55 @@
             border-radius: 1rem;
             overflow: hidden;
             border: 1px solid var(--border);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex;
+            flex-direction: column;
         }
 
         .project-card:hover {
-            border-color: var(--accent);
+            border-color: var(--accent-dark);
+            box-shadow: 0 15px 30px rgba(0, 230, 118, 0.15);
+            transform: translateY(-8px);
         }
 
         .project-content {
-            padding: 2rem;
+            padding: 2.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .project-tags {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.6rem;
             flex-wrap: wrap;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
         }
 
         .tag {
-            padding: 0.25rem 0.75rem;
+            padding: 0.3rem 0.9rem;
             background: var(--primary);
-            border-radius: 1rem;
-            font-size: 0.75rem;
+            border-radius: 1.2rem;
+            font-size: 0.8rem;
             color: var(--accent);
             border: 1px solid var(--border);
+            font-family: 'IBM Plex Mono', monospace;
+            white-space: nowrap;
         }
 
         .project-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-bottom: 1rem;
             color: var(--text);
+            font-weight: 600;
         }
 
         .project-card p {
             color: var(--text-muted);
-            line-height: 1.8;
-            margin-bottom: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            font-size: 1.05rem;
         }
 
         .project-link {
@@ -321,17 +600,21 @@
             font-weight: 500;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
         }
 
         .project-link:hover {
             text-decoration: underline;
+            gap: 0.8rem;
+            color: var(--accent-dark);
         }
 
         /* Journey Timeline */
         .timeline {
             position: relative;
-            padding-left: 3rem;
+            padding-left: 4rem;
         }
 
         .timeline::before {
@@ -342,95 +625,132 @@
             bottom: 0;
             width: 2px;
             background: var(--border);
+            z-index: 0;
         }
 
         .timeline-item {
             position: relative;
-            padding-bottom: 3rem;
+            padding-bottom: 4rem;
+            padding-left: 2rem;
         }
 
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: -3.5rem;
+            left: -0.6rem; /* Adjust to align with the main line */
             top: 0.5rem;
-            width: 1rem;
-            height: 1rem;
+            width: 1.3rem;
+            height: 1.3rem;
             border-radius: 50%;
             background: var(--accent);
             border: 3px solid var(--primary);
+            z-index: 1;
+            box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.2);
         }
 
         .timeline-year {
-            font-size: 0.875rem;
+            font-size: 0.95rem;
             color: var(--accent);
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-family: 'IBM Plex Mono', monospace;
         }
 
         .timeline-item h3 {
-            font-size: 1.25rem;
+            font-size: 1.4rem;
             margin-bottom: 0.5rem;
             color: var(--text);
+            font-weight: 600;
         }
 
         .timeline-company {
             color: var(--text-muted);
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
+            font-size: 1.05rem;
         }
 
         .timeline-description {
             color: var(--text-muted);
-            line-height: 1.8;
+            line-height: 1.7;
+            font-size: 1.05rem;
         }
 
         .timeline-description ul {
             margin-top: 1rem;
             padding-left: 1.5rem;
+            list-style: disc;
         }
 
         .timeline-description li {
             margin-bottom: 0.5rem;
         }
 
+        /* Education Section */
+        #education .philosophy-card {
+            background: var(--tertiary);
+        }
+        #education .philosophy-card:hover {
+            border-color: var(--gradient-end);
+            box-shadow: 0 15px 30px rgba(0, 160, 240, 0.15);
+        }
+        #education .philosophy-card h3 {
+            color: var(--text);
+        }
+        #education .philosophy-card p {
+            color: var(--text-muted);
+        }
+        #education .philosophy-card p strong {
+            color: var(--accent);
+        }
+
+
         /* Contact Section */
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
         }
 
         .contact-card {
             text-align: center;
-            padding: 2rem;
+            padding: 2.5rem;
             background: var(--secondary);
             border-radius: 1rem;
             border: 1px solid var(--border);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .contact-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
+            border-color: var(--accent-dark);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 230, 118, 0.15);
         }
 
         .contact-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
         }
 
         .contact-card h3 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
+            font-weight: 500;
         }
 
         .contact-card a {
             color: var(--text);
             text-decoration: none;
-            font-size: 1.125rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
         }
 
         .contact-card a:hover {
@@ -439,28 +759,43 @@
 
         .calendly-link {
             display: inline-block;
-            margin-top: 0.5rem;
-            padding: 0.75rem 1.5rem;
+            margin-top: 1.5rem;
+            padding: 1rem 2rem;
             background: var(--accent);
-            color: white !important;
-            border-radius: 0.5rem;
+            color: var(--primary) !important;
+            border-radius: 0.6rem;
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            font-size: 1rem;
+            box-shadow: 0 8px 20px var(--shadow-color);
         }
 
         .calendly-link:hover {
-            background: #2563eb;
+            background: var(--accent-dark);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 12px 25px var(--shadow-color);
+        }
+
+        .contact-card iframe {
+            margin-top: 1.5rem;
+            border-radius: 0.75rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         /* Footer */
         footer {
-            padding: 3rem 0;
+            padding: 4rem 0;
             border-top: 1px solid var(--border);
             text-align: center;
             color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
         }
 
         /* Scroll Progress Bar */
@@ -469,232 +804,94 @@
             top: 0;
             left: 0;
             width: 0%;
-            height: 3px;
-            background: var(--accent);
+            height: 4px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
             z-index: 1000;
-            transition: width 0.1s ease;
-        }
-
-        /* Tech Radar Section */
-        #techRadarSection {
-            background: var(--secondary);
-        }
-
-        .radar-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 3rem;
-            background: var(--primary);
-            border-radius: 1rem;
-            border: 1px solid var(--border);
-        }
-
-        #techRadar {
-            max-height: 600px;
-        }
-
-        .radar-legend {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-
-        .legend-dot {
-            width: 1rem;
-            height: 1rem;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        /* Calendly Section */
-        .calendly-container {
-            background: var(--secondary);
-            border-radius: 1rem;
-            padding: 3rem;
-            border: 1px solid var(--border);
-        }
-
-        .calendly-inline-widget {
-            min-width: 320px;
-            height: 700px;
-        }
-
-        /* Value Propositions */
-        .value-props {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .value-card {
-            background: var(--secondary);
-            padding: 2rem;
-            border-radius: 1rem;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .value-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-        }
-
-        .value-number {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--accent);
-            line-height: 1;
-            margin-bottom: 1rem;
-        }
-
-        .value-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-            color: var(--text);
-        }
-
-        .value-card p {
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* Process Section */
-        .process-steps {
-            display: grid;
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .process-step {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 2rem;
-            padding: 2rem;
-            background: var(--secondary);
-            border-radius: 1rem;
-            border: 1px solid var(--border);
-            align-items: start;
-        }
-
-        .step-number {
-            width: 3rem;
-            height: 3rem;
-            background: var(--accent);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .step-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--text);
-        }
-
-        .step-content p {
-            color: var(--text-muted);
-            line-height: 1.8;
-        }
-
-        /* Testimonial Section */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .testimonial-card {
-            background: var(--secondary);
-            padding: 2rem;
-            border-radius: 1rem;
-            border: 1px solid var(--border);
-            position: relative;
-        }
-
-        .quote-icon {
-            font-size: 3rem;
-            color: var(--accent);
-            opacity: 0.3;
-            position: absolute;
-            top: 1rem;
-            left: 1.5rem;
-        }
-
-        .testimonial-text {
-            color: var(--text);
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .author-info h4 {
-            font-size: 1rem;
-            color: var(--text);
-            margin-bottom: 0.25rem;
-        }
-
-        .author-info p {
-            font-size: 0.875rem;
-            color: var(--text-muted);
+            transition: width 0.1s ease-out;
+            box-shadow: 0 0 10px rgba(0, 230, 118, 0.5);
         }
 
         /* Responsive */
+        @media (max-width: 992px) {
+            .hero-description {
+                font-size: 1.1rem;
+            }
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .section-header {
+                margin-bottom: 3rem;
+            }
+            h2 {
+                font-size: 2.5rem;
+            }
+            .section-description {
+                font-size: 1.05rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 0 1.5rem;
             }
-
             section {
-                padding: 4rem 0;
+                padding: 6rem 0;
             }
-
+            h1 {
+                font-size: 3rem;
+            }
+            .cta-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                width: 100%;
+                padding: 0.9rem 1.5rem;
+                font-size: 0.95rem;
+            }
             .stats {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: 1fr;
             }
-
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            .philosophy-card, .value-card, .process-step, .project-card, .contact-card {
+                padding: 2rem;
+            }
             .timeline {
-                padding-left: 2rem;
+                padding-left: 2.5rem;
             }
-
+            .timeline-item {
+                padding-left: 1.5rem;
+                padding-bottom: 3rem;
+            }
             .timeline-item::before {
-                left: -2.5rem;
+                left: -0.5rem;
             }
         }
 
-        /* Smooth Scroll */
-        html {
-            scroll-behavior: smooth;
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            .hero-description {
+                font-size: 1rem;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+            .philosophy-card h3, .value-card h3, .process-step h3, .project-card h3 {
+                font-size: 1.4rem;
+            }
+            .tech-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
         }
 
         /* Selection */
         ::selection {
             background: var(--accent);
-            color: white;
+            color: var(--primary);
         }
     </style>
 </head>
@@ -704,11 +901,12 @@
     <div class="container">
         <!-- Hero Section -->
         <header>
+            <div class="hero-background-grid"></div>
             <div class="hero-content">
-                <div class="label">Full Stack Developer • Strategic Analyst • Problem Solver</div>
+                <div class="label mono">Full Stack Developer • Strategic Analyst • Problem Solver</div>
                 <h1>
                     Nishit Kumar<br>
-                    <span class="gradient-text">Building Solutions Through Deep Analysis</span>
+                    <span class="text-gradient">Building Solutions Through Deep Analysis</span>
                 </h1>
                 <p class="hero-description">
                     I transform complex business challenges into elegant technical solutions. With 24+ years 
@@ -716,8 +914,14 @@
                     unique analytical approach that combines technological expertise with business acumen.
                 </p>
                 <div class="cta-group">
-                    <a href="#contact" class="btn btn-primary">Start a Conversation</a>
-                    <a href="#expertise" class="btn btn-secondary">Explore My Work</a>
+                    <a href="#contact" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        Start a Conversation
+                    </a>
+                    <a href="#projects" class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rocket"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84 1.13-1.83 1.4-2.87M10 21v-7.5M14 10V3M10 21h8a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-6l-2-2H9.5M10 21l-.9-2.25M14 3l.9 2.25M22 10H8c-2 0-3 2-3 2s1 .5 2 0c1.2-.5 1.5-1 2-2l-.5-.5H22Z"/></svg>
+                        Explore My Work
+                    </a>
                 </div>
                 <div class="stats">
                     <div class="stat-item">
@@ -730,7 +934,7 @@
                     </div>
                     <div class="stat-item">
                         <span class="stat-number">10+</span>
-                        <span class="stat-label">Technologies</span>
+                        <span class="stat-label">Technologies Mastered</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-number">Global</span>
@@ -743,11 +947,11 @@
         <!-- Philosophy Section -->
         <section id="philosophy">
             <div class="section-header">
-                <div class="section-number">// 01</div>
-                <h2>My Approach</h2>
+                <div class="section-number mono">// 01</div>
+                <h2>My Approach & Philosophy</h2>
                 <p class="section-description">
                     I don't just write code. I analyze, strategize, and architect solutions that align with 
-                    your business objectives and scale with your growth.
+                    your business objectives and scale with your growth. It's about building intelligently.
                 </p>
             </div>
             <div class="philosophy-grid">
@@ -781,11 +985,11 @@
         <!-- Why Work With Me Section -->
         <section id="why-me">
             <div class="section-header">
-                <div class="section-number">// 03</div>
-                <h2>Why Work With Me</h2>
+                <div class="section-number mono">// 02</div>
+                <h2>Why Partner With Me?</h2>
                 <p class="section-description">
                     I bring a rare combination of deep technical expertise, business strategy, and 
-                    analytical thinking to every project.
+                    analytical thinking to every project, ensuring holistic and impactful solutions.
                 </p>
             </div>
             <div class="value-props">
@@ -848,11 +1052,11 @@
         <!-- My Process Section -->
         <section id="process">
             <div class="section-header">
-                <div class="section-number">// 04</div>
-                <h2>My Process</h2>
+                <div class="section-number mono">// 03</div>
+                <h2>My End-to-End Process</h2>
                 <p class="section-description">
                     A structured, analytical approach that ensures quality outcomes and keeps you 
-                    informed every step of the way.
+                    informed every step of the way, from concept to launch.
                 </p>
             </div>
             <div class="process-steps">
@@ -916,11 +1120,11 @@
         <!-- Tech Radar Section -->
         <section id="techRadarSection">
             <div class="section-header">
-                <div class="section-number">// 05</div>
-                <h2>Technology Expertise</h2>
+                <div class="section-number mono">// 04</div>
+                <h2>Technology Expertise & Radar</h2>
                 <p class="section-description">
-                    Visualized mastery across my technology stack (1 = Learning, 5 = Mastery). 
-                    Hover for experience details.
+                    My proficiency across a diverse technology stack, visualized. Level 1 = Learning, Level 5 = Mastery. 
+                    Hover over points for detailed experience.
                 </p>
             </div>
             <div class="radar-container">
@@ -946,7 +1150,7 @@
             </div>
 
             <!-- Integrated Tech Grid -->
-            <div class="expertise-categories" style="margin-top: 3rem;">
+            <div class="expertise-categories">
                 <div class="expertise-category">
                     <h3>WordPress Custom Development</h3>
                     <div class="tech-grid">
@@ -957,7 +1161,7 @@
                         <div class="tech-item">REST API</div>
                         <div class="tech-item">Webhooks</div>
                         <div class="tech-item">Payment Integration</div>
-                        <div class="tech-item">Performance</div>
+                        <div class="tech-item">Performance Opt.</div>
                     </div>
                 </div>
                 <div class="expertise-category">
@@ -1009,11 +1213,11 @@
         <!-- Featured Projects Section -->
         <section id="projects">
             <div class="section-header">
-                <div class="section-number">// 06</div>
-                <h2>Featured Work</h2>
+                <div class="section-number mono">// 05</div>
+                <h2>Featured Solutions</h2>
                 <p class="section-description">
-                    A selection of recent projects showcasing custom development, integrations, 
-                    and innovative solutions.
+                    A selection of recent projects showcasing custom development, complex integrations, 
+                    and innovative solutions tailored to specific business needs.
                 </p>
             </div>
             <div class="projects-grid">
@@ -1032,7 +1236,8 @@
                             campaign tracking, custom order processing, and multiple API integrations.
                         </p>
                         <a href="https://printpunk.com/" target="_blank" class="project-link">
-                            View Live Site →
+                            View Live Site 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17L17 7"/></svg>
                         </a>
                     </div>
                 </div>
@@ -1051,7 +1256,8 @@
                             WooCommerce infrastructure for a luxury accommodation booking platform.
                         </p>
                         <a href="https://book-a-bubble.de/en/" target="_blank" class="project-link">
-                            View Live Site →
+                            View Live Site 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17L17 7"/></svg>
                         </a>
                     </div>
                 </div>
@@ -1070,6 +1276,10 @@
                             Butterworth filters, VQF, and Savitzky-Golay filters, utilizing PyTorch and 
                             TensorFlow for model training.
                         </p>
+                         <a href="#" class="project-link">
+                            View Case Study (Coming Soon)
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        </a>
                     </div>
                 </div>
                 <div class="project-card">
@@ -1086,6 +1296,10 @@
                             optimal exploration routes. Built with Django backend and cross-platform frontend 
                             using React and React Native for seamless mobile and web experiences.
                         </p>
+                        <a href="#" class="project-link">
+                            View Case Study (Coming Soon)
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        </a>
                     </div>
                 </div>
                 <div class="project-card">
@@ -1102,7 +1316,8 @@
                             integration with popular webinar platforms.
                         </p>
                         <a href="https://github.com/dhitimedin/st-webinar-management" target="_blank" class="project-link">
-                            View on GitHub →
+                            View on GitHub 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.44-.78-3.46 0 0-1-3-1.4-3.5-.5-.3-1.2-.3-1.8.1 0 0-1.5 1-3 1.5-1.2-.3-2.4-.3-3.5 0-1.5-.5-3-1.5-3-1.5-.6-.4-1.3-.3-1.8.1-.4.5-1.4 3-1.4 3-.5.92-.78 2.03-.75 3.18 0 3.5 3 5.5 6 5.5-.3.6-.6 1.2-.6 2v4"/></svg>
                         </a>
                     </div>
                 </div>
@@ -1120,7 +1335,8 @@
                             development and sustainable energy initiatives.
                         </p>
                         <a href="https://mithunrural.org" target="_blank" class="project-link">
-                            View Mithun Rural →
+                            View Mithun Rural 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17L17 7"/></svg>
                         </a>
                     </div>
                 </div>
@@ -1130,8 +1346,8 @@
         <!-- Professional Journey -->
         <section id="journey">
             <div class="section-header">
-                <div class="section-number">// 07</div>
-                <h2>Professional Journey</h2>
+                <div class="section-number mono">// 06</div>
+                <h2>My Professional Journey</h2>
                 <p class="section-description">
                     From engineering and sales leadership at Microsoft to entrepreneurship and 
                     freelance development, my diverse background brings unique perspectives to every project.
@@ -1139,7 +1355,7 @@
             </div>
             <div class="timeline">
                 <div class="timeline-item">
-                    <div class="timeline-year">2020 - Present</div>
+                    <div class="timeline-year mono">2020 - Present</div>
                     <h3>Freelance Developer</h3>
                     <div class="timeline-company">Remote</div>
                     <div class="timeline-description">
@@ -1149,7 +1365,7 @@
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-year">2017 - 2020</div>
+                    <div class="timeline-year mono">2017 - 2020</div>
                     <h3>National Sales Head</h3>
                     <div class="timeline-company">Times Internet • TimesJobs & TechGig</div>
                     <div class="timeline-description">
@@ -1163,7 +1379,7 @@
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-year">2015 - 2017</div>
+                    <div class="timeline-year mono">2015 - 2017</div>
                     <h3>VP Sales and Partnership</h3>
                     <div class="timeline-company">3LOQ Labs • Mumbai</div>
                     <div class="timeline-description">
@@ -1173,7 +1389,7 @@
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-year">2013 - 2015</div>
+                    <div class="timeline-year mono">2013 - 2015</div>
                     <h3>Co-founder & India Head</h3>
                     <div class="timeline-company">GlocalEdge Consultants • Noida</div>
                     <div class="timeline-description">
@@ -1183,7 +1399,7 @@
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-year">2006 - 2012</div>
+                    <div class="timeline-year mono">2006 - 2012</div>
                     <h3>Developer Tools Sales Lead</h3>
                     <div class="timeline-company">Microsoft Corporation India</div>
                     <div class="timeline-description">
@@ -1193,7 +1409,7 @@
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-year">2000 - 2006</div>
+                    <div class="timeline-year mono">2000 - 2006</div>
                     <h3>Software Engineer & Pre-Sales Consultant</h3>
                     <div class="timeline-company">Wipro Technologies & Borland Software</div>
                     <div class="timeline-description">
@@ -1208,8 +1424,12 @@
         <!-- Education & Certifications -->
         <section id="education">
             <div class="section-header">
-                <div class="section-number">// 08</div>
+                <div class="section-number mono">// 07</div>
                 <h2>Education & Continuous Learning</h2>
+                <p class="section-description">
+                    A foundation of strong academic credentials, complemented by a commitment to lifelong 
+                    learning in cutting-edge technologies and strategic fields.
+                </p>
             </div>
             <div class="philosophy-grid">
                 <div class="philosophy-card">
@@ -1227,7 +1447,7 @@
                     <p>2000</p>
                 </div>
                 <div class="philosophy-card">
-                    <h3>Continuous Learning</h3>
+                    <h3>Continuous Learning & Certifications</h3>
                     <p>
                         <strong>AI/ML:</strong> MIT Professional X, Stanford, John Hopkins<br>
                         <strong>Mathematics:</strong> MIT OCW (Linear Algebra, Statistics, Calculus)<br>
@@ -1240,11 +1460,11 @@
         <!-- Contact Section -->
         <section id="contact">
             <div class="section-header">
-                <div class="section-number">// 10</div>
-                <h2>Let's Work Together</h2>
+                <div class="section-number mono">// 08</div>
+                <h2>Let's Collaborate</h2>
                 <p class="section-description">
                     I'm available for freelance projects, consulting, and full-time opportunities. 
-                    Reach out via email, phone, or schedule a free 30-minute consultation.
+                    Reach out via email, phone, or schedule a free 30-minute consultation to discuss your needs.
                 </p>
             </div>
             <div class="contact-grid">
@@ -1253,24 +1473,23 @@
                     <h3>Schedule a Call</h3>
                     <a href="https://calendly.com/nisitkumar/30min" target="_blank" class="calendly-link">Book Free Consultation</a>
                 </div>
-<div class="contact-card">
-  <h3>Location</h3>
-  <!-- Embedded map -->
-    <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3367.3172094777983!2d77.0822958!3d28.420623599999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d23027869b2af%3A0xf567730cda942ca8!2sSagacitas%20Technologies%20Private%20Limited!5e1!3m2!1sen!2sin!4v1763058128794!5m2!1sen!2sin"
-        width="400"
-        height="150"
-        style="border:0;"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
-  <a href="https://maps.app.goo.gl/cG3XuGQKtvx1H44W8"
-     target="_blank"
-     rel="noopener noreferrer">
-    Gurugram, India
-  </a>
-</div>
+                <div class="contact-card">
+                  <h3>Visit Me</h3>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3367.3172094777983!2d77.0822958!3d28.420623599999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d23027869b2af%3A0xf567730cda942ca8!2sSagacitas%20Technologies%20Private%20Limited!5e1!3m2!1sen!2sin!4v1763058128794!5m2!1sen!2sin"
+                        width="400"
+                        height="150"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                  <a href="https://maps.app.goo.gl/cG3XuGQKtvx1H44W8"
+                     target="_blank"
+                     rel="noopener noreferrer">
+                    Gurugram, India
+                  </a>
+                </div>
             </div>
         </section>
     </div>
@@ -1279,12 +1498,12 @@
         <div class="container">
             <p>&copy; 2024 Nishit Kumar. All rights reserved.</p>
             <p style="margin-top: 0.5rem; font-size: 0.875rem;">
-                Built with analysis, strategy, and code.
+                Built with deep analysis, strategic thought, and clean code.
             </p>
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         // Scroll Progress Bar
         window.addEventListener('scroll', () => {
             const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -1317,17 +1536,32 @@
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.transitionDelay = '0s'; // Reset delay
+                } else {
+                    // Optional: fade out if you want them to re-animate on scroll back
+                    // entry.target.style.opacity = '0';
+                    // entry.target.style.transform = 'translateY(20px)';
                 }
             });
         }, observerOptions);
 
         // Observe all cards and timeline items
-        document.querySelectorAll('.philosophy-card, .project-card, .timeline-item, .expertise-category, .value-card, .process-step').forEach(el => {
+        document.querySelectorAll('.philosophy-card, .project-card, .timeline-item, .expertise-category, .value-card, .process-step, .contact-card').forEach((el, index) => {
             el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
+            el.style.transitionDelay = `${index * 0.1}s`; // Staggered animation
             observer.observe(el);
         });
+
+        // Add observer for section headers to animate independently
+        document.querySelectorAll('.section-header').forEach((el) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+            observer.observe(el);
+        });
+
 
         // ---------- TECH RADAR CHART ----------
         const ctx = document.getElementById('techRadar').getContext('2d');
@@ -1340,17 +1574,17 @@
             ],
             datasets: [{
                 label: 'Expertise Level',
-                data: [5, 5, 4, 5, 5, 4, 3, 5, 4, 3, 4, 4, 4],
+                data: [5, 5, 4, 5, 5, 4, 3, 5, 4, 3, 4, 4, 4], // Your expertise levels
                 fill: true,
-                backgroundColor: 'rgba(59, 130, 246, 0.15)',
-                borderColor: 'rgba(59, 130, 246, 0.8)',
+                backgroundColor: 'rgba(0, 230, 118, 0.15)', /* Accent color */
+                borderColor: 'rgba(0, 230, 118, 0.8)', /* Accent color */
                 pointBackgroundColor: [
                     '#06B6D4', '#0EA5E9', '#67E8F9',  // Cyan for WordPress
                     '#8B5CF6', '#A855F7', '#C4B5FD', '#E9D5FF',  // Purple for Full-Stack
                     '#FB923C', '#FBBF24', '#FDE047',  // Orange for AI/ML
                     '#14B8A6', '#2DD4BF', '#5EEAD4'   // Teal for Cloud/DevOps
                 ],
-                pointBorderColor: '#fff',
+                pointBorderColor: 'var(--primary)',
                 pointBorderWidth: 2,
                 pointRadius: 6,
                 pointHoverRadius: 9,
@@ -1370,11 +1604,14 @@
                 plugins: {
                     legend: { display: false },
                     tooltip: {
-                        backgroundColor: 'rgba(10, 10, 10, 0.95)',
-                        titleFont: { size: 14, weight: 'bold' },
-                        bodyFont: { size: 13 },
-                        padding: 12,
+                        backgroundColor: 'var(--secondary)',
+                        titleFont: { size: 15, weight: 'bold', family: 'IBM Plex Sans' },
+                        bodyFont: { size: 14, family: 'IBM Plex Sans' },
+                        padding: 14,
                         cornerRadius: 8,
+                        borderColor: 'var(--border)',
+                        borderWidth: 1,
+                        displayColors: false,
                         callbacks: {
                             label: function(context) {
                                 const skill = context.label;
@@ -1385,26 +1622,28 @@
                                     'Python': '12+', 'PyTorch/TensorFlow': '4+', 'LLMs (LLaMA)': '1+',
                                     'Docker': '6+', 'AWS/GCP': '8+', 'CI/CD': '10+'
                                 };
+                                const levelTextMap = ['', 'Learning', 'Familiar', 'Proficient', 'Expert', 'Mastery'];
+                                const levelName = levelTextMap[level];
                                 const years = yearsMap[skill] || 'N/A';
-                                const levelText = ['', 'Learning', 'Familiar', 'Proficient', 'Expert', 'Mastery'][level];
-                                return `${levelText} (${level}/5) • ${years} years`;
+                                return [`Level: ${levelName} (${level}/5)`, `Experience: ${years} years`];
                             }
                         }
                     }
                 },
                 scales: {
                     r: {
-                        angleLines: { color: 'rgba(42, 42, 42, 0.5)' },
-                        grid: { color: 'rgba(42, 42, 42, 0.3)' },
+                        angleLines: { color: 'var(--border)' },
+                        grid: { color: 'rgba(44, 44, 44, 0.5)' },
                         pointLabels: { 
-                            font: { size: 12, weight: '600' },
-                            color: '#a3a3a3'
+                            font: { size: 13, weight: '600', family: 'IBM Plex Mono' },
+                            color: 'var(--text-muted)'
                         },
                         ticks: {
-                            backdropColor: 'transparent',
-                            color: '#666',
-                            font: { size: 11 },
+                            backdropColor: 'var(--tertiary)',
+                            color: 'var(--text-muted)',
+                            font: { size: 12, family: 'IBM Plex Mono' },
                             stepSize: 1,
+                            showLabelBackdrop: false,
                             callback: value => ['', '1', '2', '3', '4', '5'][value]
                         },
                         min: 0,
