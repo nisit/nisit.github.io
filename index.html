@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nishit Kumar - Full Stack Developer & Strategic Analyst</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -436,6 +437,24 @@
             color: var(--accent);
         }
 
+        .calendly-link {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent);
+            color: white !important;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .calendly-link:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
         /* Footer */
         footer {
             padding: 3rem 0;
@@ -454,6 +473,194 @@
             background: var(--accent);
             z-index: 1000;
             transition: width 0.1s ease;
+        }
+
+        /* Tech Radar Section */
+        #techRadarSection {
+            background: var(--secondary);
+        }
+
+        .radar-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem;
+            background: var(--primary);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        #techRadar {
+            max-height: 600px;
+        }
+
+        .radar-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .legend-dot {
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* Calendly Section */
+        .calendly-container {
+            background: var(--secondary);
+            border-radius: 1rem;
+            padding: 3rem;
+            border: 1px solid var(--border);
+        }
+
+        .calendly-inline-widget {
+            min-width: 320px;
+            height: 700px;
+        }
+
+        /* Value Propositions */
+        .value-props {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .value-card {
+            background: var(--secondary);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .value-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .value-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        .value-card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Process Section */
+        .process-steps {
+            display: grid;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .process-step {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            background: var(--secondary);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            align-items: start;
+        }
+
+        .step-number {
+            width: 3rem;
+            height: 3rem;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .step-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* Testimonial Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background: var(--secondary);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .quote-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            opacity: 0.3;
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+        }
+
+        .testimonial-text {
+            color: var(--text);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-info h4 {
+            font-size: 1rem;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .author-info p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
         }
 
         /* Responsive */
@@ -571,17 +778,175 @@
             </div>
         </section>
 
-        <!-- Expertise Section -->
-        <section id="expertise">
+        <!-- Why Work With Me Section -->
+        <section id="why-me">
             <div class="section-header">
-                <div class="section-number">// 02</div>
-                <h2>Expertise</h2>
+                <div class="section-number">// 03</div>
+                <h2>Why Work With Me</h2>
                 <p class="section-description">
-                    Specialized in WordPress custom development, full-stack web applications, and emerging 
-                    technologies including AI/ML and data science.
+                    I bring a rare combination of deep technical expertise, business strategy, and 
+                    analytical thinking to every project.
                 </p>
             </div>
-            <div class="expertise-categories">
+            <div class="value-props">
+                <div class="value-card">
+                    <div class="value-number">01</div>
+                    <h3>Business-Minded Developer</h3>
+                    <p>
+                        With an MBA from IIM Bangalore and 24+ years spanning sales leadership at Microsoft 
+                        to startup founding, I understand business objectives. I don't just code—I solve 
+                        business problems through technology.
+                    </p>
+                </div>
+                <div class="value-card">
+                    <div class="value-number">02</div>
+                    <h3>Research-Driven Approach</h3>
+                    <p>
+                        Every project begins with thorough analysis. I research best practices, study your 
+                        industry, and analyze your competitors to ensure the solution fits your unique context 
+                        and gives you a competitive edge.
+                    </p>
+                </div>
+                <div class="value-card">
+                    <div class="value-number">03</div>
+                    <h3>Full Ownership & Accountability</h3>
+                    <p>
+                        From requirement analysis to deployment and maintenance, I take complete ownership. 
+                        You get clear communication, on-time delivery, and a partner who's invested in 
+                        your success.
+                    </p>
+                </div>
+                <div class="value-card">
+                    <div class="value-number">04</div>
+                    <h3>Proven Track Record</h3>
+                    <p>
+                        Trusted by clients globally through Codeable. Successfully delivered 100+ projects 
+                        ranging from complex WordPress plugins to AI/ML applications. Clients return because 
+                        of quality and reliability.
+                    </p>
+                </div>
+                <div class="value-card">
+                    <div class="value-number">05</div>
+                    <h3>Strategic Scaling Expertise</h3>
+                    <p>
+                        Led business growth from $10M to $20M at Microsoft. Grew TechGig by 400%. I understand 
+                        what it takes to scale, and I build solutions that grow with your business.
+                    </p>
+                </div>
+                <div class="value-card">
+                    <div class="value-number">06</div>
+                    <h3>Continuous Learning</h3>
+                    <p>
+                        Actively learning cutting-edge technologies through MIT, Stanford, and other top 
+                        institutions. I stay ahead of trends in AI/ML, cloud computing, and modern web 
+                        development frameworks.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- My Process Section -->
+        <section id="process">
+            <div class="section-header">
+                <div class="section-number">// 04</div>
+                <h2>My Process</h2>
+                <p class="section-description">
+                    A structured, analytical approach that ensures quality outcomes and keeps you 
+                    informed every step of the way.
+                </p>
+            </div>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Discovery & Analysis</h3>
+                        <p>
+                            Deep dive into your requirements, business context, user needs, and technical 
+                            constraints. I research your industry, analyze competitors, and identify best 
+                            practices to inform the solution design.
+                        </p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Strategic Planning</h3>
+                        <p>
+                            Create a comprehensive project plan with clear milestones, deliverables, and 
+                            success metrics. I propose the optimal technology stack and architecture based 
+                            on research and your specific needs.
+                        </p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Iterative Development</h3>
+                        <p>
+                            Build in sprints with regular check-ins and demos. You see progress continuously, 
+                            provide feedback early, and we course-correct as needed. Clean, documented, 
+                            maintainable code is non-negotiable.
+                        </p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Testing & Quality Assurance</h3>
+                        <p>
+                            Rigorous testing across devices, browsers, and scenarios. Performance optimization, 
+                            security hardening, and accessibility compliance. I deliver production-ready solutions.
+                        </p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Deployment & Support</h3>
+                        <p>
+                            Smooth deployment with minimal disruption. Comprehensive documentation and training. 
+                            Post-launch support to ensure everything runs perfectly. I'm available for 
+                            maintenance and future enhancements.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Radar Section -->
+        <section id="techRadarSection">
+            <div class="section-header">
+                <div class="section-number">// 05</div>
+                <h2>Technology Expertise</h2>
+                <p class="section-description">
+                    Visualized mastery across my technology stack (1 = Learning, 5 = Mastery). 
+                    Hover for experience details.
+                </p>
+            </div>
+            <div class="radar-container">
+                <canvas id="techRadar"></canvas>
+                <div class="radar-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #06B6D4;"></div>
+                        <span>WordPress Stack</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #8B5CF6;"></div>
+                        <span>Full-Stack Dev</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #FB923C;"></div>
+                        <span>AI/ML Tools</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #14B8A6;"></div>
+                        <span>Cloud/DevOps</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Integrated Tech Grid -->
+            <div class="expertise-categories" style="margin-top: 3rem;">
                 <div class="expertise-category">
                     <h3>WordPress Custom Development</h3>
                     <div class="tech-grid">
@@ -644,7 +1009,7 @@
         <!-- Featured Projects Section -->
         <section id="projects">
             <div class="section-header">
-                <div class="section-number">// 03</div>
+                <div class="section-number">// 06</div>
                 <h2>Featured Work</h2>
                 <p class="section-description">
                     A selection of recent projects showcasing custom development, integrations, 
@@ -765,7 +1130,7 @@
         <!-- Professional Journey -->
         <section id="journey">
             <div class="section-header">
-                <div class="section-number">// 04</div>
+                <div class="section-number">// 07</div>
                 <h2>Professional Journey</h2>
                 <p class="section-description">
                     From engineering and sales leadership at Microsoft to entrepreneurship and 
@@ -776,7 +1141,7 @@
                 <div class="timeline-item">
                     <div class="timeline-year">2020 - Present</div>
                     <h3>Freelance Developer</h3>
-                    <div class="timeline-company">Codeable • Remote</div>
+                    <div class="timeline-company">Remote</div>
                     <div class="timeline-description">
                         Providing custom WordPress, full-stack development, and AI/ML solutions to clients 
                         globally. Specializing in complex plugin development, API integrations, and data-driven 
@@ -843,7 +1208,7 @@
         <!-- Education & Certifications -->
         <section id="education">
             <div class="section-header">
-                <div class="section-number">// 05</div>
+                <div class="section-number">// 08</div>
                 <h2>Education & Continuous Learning</h2>
             </div>
             <div class="philosophy-grid">
@@ -875,29 +1240,37 @@
         <!-- Contact Section -->
         <section id="contact">
             <div class="section-header">
-                <div class="section-number">// 06</div>
+                <div class="section-number">// 10</div>
                 <h2>Let's Work Together</h2>
                 <p class="section-description">
                     I'm available for freelance projects, consulting, and full-time opportunities. 
-                    Let's discuss how I can help solve your challenges.
+                    Reach out via email, phone, or schedule a free 30-minute consultation.
                 </p>
             </div>
             <div class="contact-grid">
                 <div class="contact-card">
-                    <div class="contact-icon">📧</div>
-                    <h3>Email</h3>
-                    <a href="mailto:nishitk@sagacitastech.com">nishitk@sagacitastech.com</a>
+                    <div class="contact-icon">📅</div>
+                    <h3>Schedule a Call</h3>
+                    <a href="https://calendly.com/nisitkumar/30min" target="_blank" class="calendly-link">Book Free Consultation</a>
                 </div>
-                <div class="contact-card">
-                    <div class="contact-icon">📱</div>
-                    <h3>Phone</h3>
-                    <a href="tel:+919871188327">+91 9871188327</a>
-                </div>
-                <div class="contact-card">
-                    <div class="contact-icon">📍</div>
-                    <h3>Location</h3>
-                    <a>Gurugram, India</a>
-                </div>
+<div class="contact-card">
+  <h3>Location</h3>
+  <!-- Embedded map -->
+    <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3367.3172094777983!2d77.0822958!3d28.420623599999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d23027869b2af%3A0xf567730cda942ca8!2sSagacitas%20Technologies%20Private%20Limited!5e1!3m2!1sen!2sin!4v1763058128794!5m2!1sen!2sin"
+        width="400"
+        height="150"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  <a href="https://maps.app.goo.gl/cG3XuGQKtvx1H44W8"
+     target="_blank"
+     rel="noopener noreferrer">
+    Gurugram, India
+  </a>
+</div>
             </div>
         </section>
     </div>
@@ -911,7 +1284,7 @@
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Scroll Progress Bar
         window.addEventListener('scroll', () => {
             const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -949,11 +1322,100 @@
         }, observerOptions);
 
         // Observe all cards and timeline items
-        document.querySelectorAll('.philosophy-card, .project-card, .timeline-item, .expertise-category').forEach(el => {
+        document.querySelectorAll('.philosophy-card, .project-card, .timeline-item, .expertise-category, .value-card, .process-step').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(el);
+        });
+
+        // ---------- TECH RADAR CHART ----------
+        const ctx = document.getElementById('techRadar').getContext('2d');
+        const techData = {
+            labels: [
+                'WordPress', 'WooCommerce', 'Gutenberg',
+                'React/Next.js', 'Node.js', 'Django/Flask', 'GraphQL',
+                'Python', 'PyTorch/TensorFlow', 'LLMs (LLaMA)',
+                'Docker', 'AWS/GCP', 'CI/CD'
+            ],
+            datasets: [{
+                label: 'Expertise Level',
+                data: [5, 5, 4, 5, 5, 4, 3, 5, 4, 3, 4, 4, 4],
+                fill: true,
+                backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                borderColor: 'rgba(59, 130, 246, 0.8)',
+                pointBackgroundColor: [
+                    '#06B6D4', '#0EA5E9', '#67E8F9',  // Cyan for WordPress
+                    '#8B5CF6', '#A855F7', '#C4B5FD', '#E9D5FF',  // Purple for Full-Stack
+                    '#FB923C', '#FBBF24', '#FDE047',  // Orange for AI/ML
+                    '#14B8A6', '#2DD4BF', '#5EEAD4'   // Teal for Cloud/DevOps
+                ],
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 6,
+                pointHoverRadius: 9,
+                borderWidth: 2
+            }]
+        };
+
+        new Chart(ctx, {
+            type: 'radar',
+            data: techData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                elements: {
+                    line: { tension: 0.3 }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 10, 10, 0.95)',
+                        titleFont: { size: 14, weight: 'bold' },
+                        bodyFont: { size: 13 },
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                const skill = context.label;
+                                const level = context.raw;
+                                const yearsMap = {
+                                    'WordPress': '15+', 'WooCommerce': '10+', 'Gutenberg': '5+',
+                                    'React/Next.js': '8+', 'Node.js': '10+', 'Django/Flask': '7+', 'GraphQL': '3+',
+                                    'Python': '12+', 'PyTorch/TensorFlow': '4+', 'LLMs (LLaMA)': '1+',
+                                    'Docker': '6+', 'AWS/GCP': '8+', 'CI/CD': '10+'
+                                };
+                                const years = yearsMap[skill] || 'N/A';
+                                const levelText = ['', 'Learning', 'Familiar', 'Proficient', 'Expert', 'Mastery'][level];
+                                return `${levelText} (${level}/5) • ${years} years`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(42, 42, 42, 0.5)' },
+                        grid: { color: 'rgba(42, 42, 42, 0.3)' },
+                        pointLabels: { 
+                            font: { size: 12, weight: '600' },
+                            color: '#a3a3a3'
+                        },
+                        ticks: {
+                            backdropColor: 'transparent',
+                            color: '#666',
+                            font: { size: 11 },
+                            stepSize: 1,
+                            callback: value => ['', '1', '2', '3', '4', '5'][value]
+                        },
+                        min: 0,
+                        max: 5
+                    }
+                },
+                animation: {
+                    duration: 1500,
+                    easing: 'easeOutQuart'
+                }
+            }
         });
     </script>
 </body>
