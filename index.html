@@ -17,22 +17,22 @@
         }
 
         :root {
-            --primary: #0a0a0a;
+            --primary: #0a0a0f; /* Darker bg for impact */
             --secondary: #161616;
             --tertiary: #1f1f1f;
-            --accent: #00e676; /* Vibrant Green */
+            --accent: #00ff88; /* Brighter green from claud for punch */
             --accent-dark: #00c853;
             --text: #e0e0e0;
             --text-muted: #a0a0a0;
             --border: #2c2c2c;
-            --gradient-start: #00e676;
+            --gradient-start: #00ff88;
             --gradient-end: #00a0f0; /* Light Blue */
-            --shadow-color: rgba(0, 230, 118, 0.2);
+            --shadow-color: rgba(0, 255, 136, 0.2); /* Updated shadow */
 
-            /* Social Colors */
-            --twitter-blue: #1DA1F2;
-            --mastodon-purple: #6364FF;
-            --github-gray: #E0E0E0; /* Using text color for GitHub to blend with dark theme */
+            /* Social Colors - Harmonized with accent */
+            --social-primary: var(--accent);
+            --social-secondary: var(--accent-dark);
+            --social-text: var(--primary);
         }
 
         body {
@@ -63,7 +63,33 @@
             font-family: 'IBM Plex Mono', monospace;
         }
 
-        /* Header/Hero Section */
+        /* Custom Cursor for impact */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            opacity: 0.5;
+        }
+
+        /* Header/Hero Section - Keep structure, add animations */
         header {
             min-height: 100vh;
             display: flex;
@@ -73,7 +99,7 @@
             padding: 4rem 0;
             background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
             overflow: hidden;
-            isolation: isolate; /* To ensure z-index of children */
+            isolation: isolate;
         }
 
         .hero-background-grid {
@@ -171,7 +197,7 @@
 
         .btn-primary:hover {
             background: var(--accent-dark);
-            transform: translateY(-3px);
+            transform: translateY(-3px) scale(1.05); /* Added scale for punch */
             box-shadow: 0 15px 35px var(--shadow-color);
         }
 
@@ -199,10 +225,11 @@
         .btn-secondary:hover {
             border-color: var(--accent);
             color: var(--accent);
-            transform: translateY(-3px);
+            transform: translateY(-3px) scale(1.05); /* Added scale */
             box-shadow: 0 5px 15px rgba(0, 230, 118, 0.1);
         }
 
+        /* Stats with punchy language */
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -436,6 +463,46 @@
             font-size: 1.05rem;
         }
 
+
+        /* Tech Stack Marquee */
+        .tech-marquee {
+            overflow: hidden;
+            padding: 3rem 0;
+            background: rgba(0, 255, 136, 0.05); /* Accent green tint */
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+
+        .marquee-content {
+            display: flex;
+            animation: marquee 30s linear infinite;
+            gap: 3rem;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .tech-item {
+            font-size: 2rem;
+            font-weight: 600;
+            white-space: nowrap;
+            color: var(--text);
+            opacity: 0.6;
+            transition: all 0.3s;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .tech-item:hover {
+            opacity: 1;
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
         /* Tech Radar Section */
         #techRadarSection {
             background: var(--secondary);
@@ -556,7 +623,7 @@
         .project-card:hover {
             border-color: var(--accent-dark);
             box-shadow: 0 15px 30px rgba(0, 230, 118, 0.15);
-            transform: translateY(-8px);
+            transform: translateY(-8px) scale(1.02);
         }
 
         .project-content {
@@ -616,34 +683,40 @@
             color: var(--accent-dark);
         }
 
-        /* Journey Timeline */
+        /* From Code to Leadership & Back - Content from index.html, impactful style */
         .timeline {
             position: relative;
-            padding-left: 4rem;
+            padding-left: 0;
+            padding-top: 2rem;
         }
 
         .timeline::before {
             content: '';
             position: absolute;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             top: 0;
             bottom: 0;
             width: 2px;
-            background: var(--border);
+            background: linear-gradient(180deg, var(--accent), var(--gradient-end));
             z-index: 0;
         }
 
         .timeline-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
             position: relative;
-            padding-bottom: 4rem;
-            padding-left: 2rem;
+            align-items: flex-start;
         }
 
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: -0.6rem; /* Adjust to align with the main line */
+            left: 50%;
             top: 0.5rem;
+            transform: translateX(-50%);
             width: 1.3rem;
             height: 1.3rem;
             border-radius: 50%;
@@ -651,6 +724,48 @@
             border: 3px solid var(--primary);
             z-index: 1;
             box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.2);
+        }
+
+        .timeline-item:nth-child(odd) {
+            text-align: right;
+            grid-template-columns: 1fr auto; /* Adjusted for better alignment */
+            padding-right: calc(50% + 2rem);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            grid-column: 1;
+        }
+
+        .timeline-item:nth-child(even) {
+            text-align: left;
+            grid-template-columns: auto 1fr; /* Adjusted for better alignment */
+            padding-left: calc(50% + 2rem);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            grid-column: 2;
+        }
+
+        .timeline-content {
+            padding: 2rem;
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+        }
+
+        .timeline-content:hover {
+            border-color: var(--accent-dark);
+            box-shadow: 0 10px 20px rgba(0, 230, 118, 0.1);
+            transform: scale(1.02); /* Added for punch */
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content:hover {
+            transform: translateX(-8px) scale(1.02);
+        }
+        .timeline-item:nth-child(even) .timeline-content:hover {
+            transform: translateX(8px) scale(1.02);
         }
 
         .timeline-year {
@@ -680,23 +795,13 @@
             font-size: 1.05rem;
         }
 
-        .timeline-description ul {
-            margin-top: 1rem;
-            padding-left: 1.5rem;
-            list-style: disc;
-        }
-
-        .timeline-description li {
-            margin-bottom: 0.5rem;
-        }
-
         /* Education Section */
         #education .philosophy-card {
             background: var(--tertiary);
         }
         #education .philosophy-card:hover {
-            border-color: var(--gradient-end);
-            box-shadow: 0 15px 30px rgba(0, 160, 240, 0.15);
+            border-color: var(--accent-dark); /* Fixed: Should be accent-dark for consistency */
+            box-shadow: 0 15px 30px rgba(0, 230, 118, 0.15); /* Adjusted shadow for consistency */
         }
         #education .philosophy-card h3 {
             color: var(--text);
@@ -708,7 +813,7 @@
             color: var(--accent);
         }
 
-        /* Connect with Me Section */
+        /* Connect with Me Section - Harmonized with accent colors */
         .social-connect-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -730,34 +835,29 @@
         }
 
         .social-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-8px) scale(1.02);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            border-color: var(--social-primary); /* Use accent for hover border */
         }
 
-        .social-card.twitter:hover { border-color: var(--twitter-blue); box-shadow: 0 15px 30px rgba(29, 161, 242, 0.15); }
-        .social-card.mastodon:hover { border-color: var(--mastodon-purple); box-shadow: 0 15px 30px rgba(99, 100, 255, 0.15); }
-        .social-card.github:hover { border-color: var(--github-gray); box-shadow: 0 15px 30px rgba(224, 224, 224, 0.05); }
-
-
         .social-icon {
-            font-size: 3.5rem; /* Larger icons */
+            font-size: 3.5rem;
             margin-bottom: 1.5rem;
             transition: transform 0.3s ease;
+            color: var(--social-primary); /* Apply accent color to icons */
         }
 
         .social-card:hover .social-icon {
             transform: scale(1.1);
+            filter: brightness(1.2); /* Slight glow on hover */
         }
 
         .social-card h3 {
             font-size: 1.6rem;
             margin-bottom: 0.75rem;
             font-weight: 600;
+            color: var(--text); /* Keep heading color consistent */
         }
-        .social-card.twitter h3 { color: var(--twitter-blue); }
-        .social-card.mastodon h3 { color: var(--mastodon-purple); }
-        .social-card.github h3 { color: var(--github-gray); } /* Using text color for GitHub */
-
 
         .social-card p {
             color: var(--text-muted);
@@ -771,96 +871,69 @@
             font-size: 0.95rem;
             width: auto;
             border-radius: 0.5rem;
+            background: var(--social-primary);
+            color: var(--social-text);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3); /* Accent shadow */
         }
 
-        .social-card .btn.twitter-btn {
-            background: var(--twitter-blue);
-            color: white;
-            box-shadow: 0 5px 15px rgba(29, 161, 242, 0.3);
+        .social-card .btn:hover {
+            background: var(--social-secondary);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 255, 136, 0.4); /* Darker accent shadow */
         }
-        .social-card .btn.twitter-btn:hover {
-            background: #1991DA;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(29, 161, 242, 0.4);
-        }
-
-        .social-card .btn.mastodon-btn {
-            background: var(--mastodon-purple);
-            color: white;
-            box-shadow: 0 5px 15px rgba(99, 100, 255, 0.3);
-        }
-        .social-card .btn.mastodon-btn:hover {
-            background: #5051E6;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(99, 100, 255, 0.4);
-        }
-
-        .social-card .btn.github-btn {
-            background: var(--tertiary);
-            color: var(--github-gray);
-            border: 1px solid var(--border);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        .social-card .btn.github-btn:hover {
-            border-color: var(--github-gray);
-            color: var(--text);
-            background: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(224, 224, 224, 0.1);
-        }
-
 
         /* Contact Section */
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2.5rem;
         }
 
         .contact-card {
-            text-align: center;
-            padding: 2.5rem;
             background: var(--secondary);
+            padding: 2.5rem;
             border-radius: 1rem;
             border: 1px solid var(--border);
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
         }
 
         .contact-card:hover {
             border-color: var(--accent-dark);
-            transform: translateY(-8px);
+            transform: translateY(-8px) scale(1.02);
             box-shadow: 0 15px 30px rgba(0, 230, 118, 0.15);
         }
 
         .contact-icon {
             font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--accent);
+            margin-bottom: 1rem;
+            color: var(--accent); /* Ensure consistency */
         }
 
         .contact-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-weight: 500;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+            font-weight: 600;
         }
 
         .contact-card a {
-            color: var(--text);
+            color: var(--accent);
             text-decoration: none;
-            font-size: 1.2rem;
             font-weight: 500;
-            transition: color 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
         }
 
         .contact-card a:hover {
-            color: var(--accent);
+            text-decoration: underline;
+            gap: 0.8rem;
+            color: var(--accent-dark);
         }
 
         .calendly-link {
@@ -883,25 +956,26 @@
             box-shadow: 0 12px 25px var(--shadow-color);
         }
 
-        .contact-card iframe {
-            margin-top: 1.5rem;
-            border-radius: 0.75rem;
+        iframe {
             width: 100%;
-            max-width: 400px;
+            height: 150px;
+            border: 0;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            max-width: 400px; /* Ensure map doesn't over-expand on larger screens */
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         /* Footer */
         footer {
             padding: 4rem 0;
-            border-top: 1px solid var(--border);
             text-align: center;
-            color: var(--text-muted);
-            font-size: 0.95rem;
+            border-top: 1px solid var(--border);
         }
 
         footer p {
-            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
         }
 
         /* Scroll Progress Bar */
@@ -914,7 +988,7 @@
             background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
             z-index: 1000;
             transition: width 0.1s ease-out;
-            box-shadow: 0 0 10px rgba(0, 230, 118, 0.5);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5); /* Updated shadow */
         }
 
         /* Responsive */
@@ -933,6 +1007,26 @@
             }
             .section-description {
                 font-size: 1.05rem;
+            }
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                padding-left: 0;
+                padding-right: 0;
+                grid-template-columns: 1fr;
+                text-align: left;
+            }
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                grid-column: 1;
+                transform: translateX(0); /* Reset transform for smaller screens */
+            }
+            .timeline-item::before {
+                left: 1rem; /* Adjust position for single column timeline */
+                transform: translateX(-50%);
+            }
+            .timeline::before {
+                left: 1rem; /* Adjust position for single column timeline */
+                transform: translateX(-50%);
             }
         }
 
@@ -999,7 +1093,18 @@
             background: var(--accent);
             color: var(--primary);
         }
-        /* Removed feed-container as embedded feeds are no longer used */
+
+        /* Animations and Reveals */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -1022,7 +1127,7 @@
                 <div class="cta-group">
                     <a href="#contact" class="btn btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                        Start a Conversation
+                        Let's Build Something
                     </a>
                     <a href="#projects" class="btn btn-secondary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rocket"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84 1.13-1.83 1.4-2.87M10 21v-7.5M14 10V3M10 21h8a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-6l-2-2H9.5M10 21l-.9-2.25M14 3l.9 2.25M22 10H8c-2 0-3 2-3 2s1 .5 2 0c1.2-.5 1.5-1 2-2l-.5-.5H22Z"/></svg>
@@ -1255,6 +1360,33 @@
                 </div>
             </div>
 
+            <!-- Tech Stack Marquee -->
+            <div class="tech-marquee">
+                <div class="marquee-content">
+                    <span class="tech-item">WordPress</span>
+                    <span class="tech-item">React</span>
+                    <span class="tech-item">Node.js</span>
+                    <span class="tech-item">Python</span>
+                    <span class="tech-item">Django</span>
+                    <span class="tech-item">Next.js</span>
+                    <span class="tech-item">WooCommerce</span>
+                    <span class="tech-item">PyTorch</span>
+                    <span class="tech-item">AWS</span>
+                    <span class="tech-item">Docker</span>
+                    <!-- Duplicate for seamless loop -->
+                    <span class="tech-item">WordPress</span>
+                    <span class="tech-item">React</span>
+                    <span class="tech-item">Node.js</span>
+                    <span class="tech-item">Python</span>
+                    <span class="tech-item">Django</span>
+                    <span class="tech-item">Next.js</span>
+                    <span class="tech-item">WooCommerce</span>
+                    <span class="tech-item">PyTorch</span>
+                    <span class="tech-item">AWS</span>
+                    <span class="tech-item">Docker</span>
+                </div>
+            </div>
+
             <!-- Integrated Tech Grid -->
             <div class="expertise-categories">
                 <div class="expertise-category">
@@ -1460,68 +1592,64 @@
                 </p>
             </div>
             <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-year mono">2020 - Present</div>
-                    <h3>Freelance Developer</h3>
-                    <div class="timeline-company">Remote</div>
-                    <div class="timeline-description">
-                        Providing custom WordPress, full-stack development, and AI/ML solutions to clients
-                        globally. Specializing in complex plugin development, API integrations, and data-driven
-                        applications. Continuously expanding expertise in modern frameworks and emerging technologies.
+                <div class="timeline-item reveal">
+                    <div class="timeline-content">
+                        <div class="timeline-year mono">2020 - Present</div>
+                        <h3>Freelance Developer</h3>
+                        <div class="timeline-company">Remote</div>
+                        <div class="timeline-description">
+                            Custom WordPress, full-stack, AI/ML for global clients—plugins to data-driven powerhouses.
+                        </div>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-year mono">2017 - 2020</div>
-                    <h3>National Sales Head</h3>
-                    <div class="timeline-company">Times Internet • TimesJobs & TechGig</div>
-                    <div class="timeline-description">
-                        Led sales and marketing for India's leading job board and developer community platform.
-                        <ul>
-                            <li>Grew TechGig business by 400% through strategic repositioning</li>
-                            <li>Improved TimesJobs profitability by optimizing pricing and retention strategies</li>
-                            <li>Managed team of 120+ people, reducing attrition by 50%</li>
-                            <li>Onboarded top brands: Google, Microsoft, AWS, Credit Suisse, Deloitte</li>
-                        </ul>
+                <div class="timeline-item reveal">
+                    <div class="timeline-content">
+                        <div class="timeline-year mono">2017 - 2020</div>
+                        <h3>National Sales Head</h3>
+                        <div class="timeline-company">Times Internet • TimesJobs & TechGig</div>
+                        <div class="timeline-description">
+                            Exploded TechGig 400%. Led 120+ team, optimized pricing for massive profitability.
+                        </div>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-year mono">2015 - 2017</div>
-                    <h3>VP Sales and Partnership</h3>
-                    <div class="timeline-company">3LOQ Labs • Mumbai</div>
-                    <div class="timeline-description">
-                        Led business development for a big data analytics startup focused on transaction
-                        intelligence. Created data pipelines and AI models, managed partnerships with HDFC Bank,
-                        Hungama, IRCTC, and expanded operations across India and South East Asia.
+                <div class="timeline-item reveal">
+                    <div class="timeline-content">
+                        <div class="timeline-year mono">2015 - 2017</div>
+                        <h3>VP Sales and Partnership</h3>
+                        <div class="timeline-company">3LOQ Labs • Mumbai</div>
+                        <div class="timeline-description">
+                            Landed HDFC Bank, Hungama, IRCTC—drove adoption across India and Southeast Asia.
+                        </div>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-year mono">2013 - 2015</div>
-                    <h3>Co-founder & India Head</h3>
-                    <div class="timeline-company">GlocalEdge Consultants • Noida</div>
-                    <div class="timeline-description">
-                        Built digital marketing services company and SaaS-based social media management tool.
-                        Achieved 6X revenue growth, 90% customer retention, serving government ministries and
-                        private enterprises.
+                <div class="timeline-item reveal">
+                    <div class="timeline-content">
+                        <div class="timeline-year mono">2013 - 2015</div>
+                        <h3>Co-founder & India Head</h3>
+                        <div class="timeline-company">GlocalEdge Consultants • Noida</div>
+                        <div class="timeline-description">
+                            Scaled SaaS venture: 6× revenue, 90% retention, government/enterprise conquests.
+                        </div>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-year mono">2006 - 2012</div>
-                    <h3>Developer Tools Sales Lead</h3>
-                    <div class="timeline-company">Microsoft Corporation India</div>
-                    <div class="timeline-description">
-                        Progressed through multiple leadership roles across regions, growing business from $10M
-                        to $20M. Successfully penetrated government institutions (ISRO, DRDO, Ministry of Defence)
-                        and major enterprises across banking, telecom, manufacturing, and pharmaceutical sectors.
+                <div class="timeline-item reveal">
+                    <div class="timeline-content">
+                        <div class="timeline-year mono">2006 - 2012</div>
+                        <h3>Developer Tools Sales Lead</h3>
+                        <div class="timeline-company">Microsoft Corporation India</div>
+                        <div class="timeline-description">
+                            Doubled revenue every 2 years, scaled $10M to $20M in downturn—account expansion master.
+                        </div>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-year mono">2000 - 2006</div>
-                    <h3>Software Engineer & Pre-Sales Consultant</h3>
-                    <div class="timeline-company">Wipro Technologies & Borland Software</div>
-                    <div class="timeline-description">
-                        Started career as software engineer working with J2EE, C++, and various enterprise
-                        technologies. Transitioned to pre-sales, winning multi-million dollar contracts and
-                        supporting 100% year-on-year growth through technical expertise and proposal development.
+                <div class="timeline-item reveal">
+                    <div class="timeline-content">
+                        <div class="timeline-year mono">2000 - 2006</div>
+                        <h3>Software Engineer & Pre-Sales Consultant</h3>
+                        <div class="timeline-company">Wipro Technologies & Borland Software</div>
+                        <div class="timeline-description">
+                            J2EE/C++ to multi-million deals: 100% YoY growth via tech depth and killer proposals.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1573,33 +1701,37 @@
                 </p>
             </div>
             <div class="social-connect-grid">
-                <div class="social-card twitter">
+                <div class="social-card">
                     <div class="social-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--twitter-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17-17 11.6 2.2.1 4.4-.6 6-2 1.1-.9 1.9-2.2 2.5-3.7C14.8 9.1 16 8 17.5 7H22c-2.8-.8-5-2-7-4"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="lucide lucide-twitter" viewBox="0 0 24 24">
+                            <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+                        </svg>
                     </div>
                     <h3>Twitter / X</h3>
                     <p>My latest thoughts, tech insights, and project updates.</p>
-                    <a href="https://x.com/nisitkumar" target="_blank" class="btn twitter-btn">
+                    <a href="https://x.com/nisitkumar" target="_blank" class="btn">
                         Follow on Twitter
                     </a>
                 </div>
-                <div class="social-card mastodon">
+                <div class="social-card">
                     <div class="social-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="var(--mastodon-purple)" stroke="none" class="lucide lucide-mastodon"><path d="M19.7 13.7c-2.5 2.5-6.7 2.7-8.7 2c-3.7-1.1-6.7-4.1-7.9-7.7c-1.2-3.8-.5-7.6 1.4-9.2C6.5.6 10 .3 13.6 1.7c4.6 1.7 6.4 7.6 5.8 11.6z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="lucide lucide-mastodon" viewBox="0 0 24 24">
+                            <path d="M11.19 12.195c2.016-.24 3.77-1.475 3.99-2.603.348-1.778.32-4.339.32-4.339 0-3.47-2.286-4.488-2.286-4.488C12.062.238 10.083.017 8.027 0h-.05C5.92.017 3.942.238 2.79.765c0 0-2.285 1.017-2.285 4.488l-.002.662c-.004.64-.007 1.35.011 2.091.083 3.394.626 6.74 3.78 7.57 1.454.383 2.703.463 3.709.408 1.823-.1 2.847-.647 2.847-.647l-.06-1.317s-1.303.41-2.767.36c-1.45-.05-2.98-.156-3.215-1.928a4 4 0 0 1-.033-.496s1.424.346 3.228.428c1.103.05 2.137-.064 3.188-.189zm1.613-2.47H11.13v-4.08c0-.859-.364-1.295-1.091-1.295-.804 0-1.207.517-1.207 1.541v2.233H7.168V5.89c0-1.024-.403-1.541-1.207-1.541-.727 0-1.091.436-1.091 1.296v4.079H3.197V5.522q0-1.288.66-2.046c.456-.505 1.052-.764 1.793-.764.856 0 1.504.328 1.933.983L8 4.39l.417-.695c.429-.655 1.077-.983 1.934-.983.74 0 1.336.259 1.791.764q.662.757.661 2.046z"/>
+                        </svg>
                     </div>
                     <h3>Mastodon</h3>
                     <p>More in-depth discussions and community engagement.</p>
-                    <a href="https://mastodon.social/@nisitkumar" target="_blank" class="btn mastodon-btn">
+                    <a href="https://mastodon.social/@nisitkumar" target="_blank" class="btn">
                         Follow on Mastodon
                     </a>
                 </div>
-                <div class="social-card github">
+                <div class="social-card">
                     <div class="social-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="var(--github-gray)" stroke="var(--github-gray)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.44-.78-3.46 0 0-1-3-1.4-3.5-.5-.3-1.2-.3-1.8.1 0 0-1.5 1-3 1.5-1.2-.3-2.4-.3-3.5 0-1.5-.5-3-1.5-3-1.5-.6-.4-1.3-.3-1.8.1-.4.5-1.4 3-1.4 3-.5.92-.78 2.03-.75 3.18 0 3.5 3 5.5 6 5.5-.3.6-.6 1.2-.6 2v4"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.44-.78-3.46 0 0-1-3-1.4-3.5-.5-.3-1.2-.3-1.8.1 0 0-1.5 1-3 1.5-1.2-.3-2.4-.3-3.5 0-1.5-.5-3-1.5-3-1.5-.6-.4-1.3-.3-1.8.1-.4.5-1.4 3-1.4 3-.5.92-.78 2.03-.75 3.18 0 3.5 3 5.5 6 5.5-.3.6-.6 1.2-.6 2v4"/></svg>
                     </div>
                     <h3>GitHub</h3>
                     <p>Explore my open-source contributions and project code.</p>
-                    <a href="https://github.com/nisit" target="_blank" class="btn github-btn">
+                    <a href="https://github.com/nisit" target="_blank" class="btn">
                         View GitHub Profile
                     </a>
                 </div>
@@ -1609,7 +1741,7 @@
         <!-- Contact Section -->
         <section id="contact">
             <div class="section-header">
-                <div class="section-number mono">// 09</div> <!-- Updated section number -->
+                <div class="section-number mono">// 09</div>
                 <h2>Let's Collaborate</h2>
                 <p class="section-description">
                     I'm available for freelance projects, consulting, and full-time opportunities.
@@ -1623,6 +1755,7 @@
                     <a href="https://calendly.com/nisitkumar/30min" target="_blank" class="calendly-link">Book Free Consultation</a>
                 </div>
                 <div class="contact-card">
+                  <div class="contact-icon">📍</div>
                   <h3>Visit Me</h3>
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3367.3172094777983!2d77.0822958!3d28.420623599999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d23027869b2af%3A0xf567730cda942ca8!2sSagacitas%20Technologies%20Private%20Limited!5e1!3m2!1sen!2sin!4v1763058128794!5m2!1sen!2sin"
