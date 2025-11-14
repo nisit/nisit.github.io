@@ -28,6 +28,11 @@
             --gradient-start: #00e676;
             --gradient-end: #00a0f0; /* Light Blue */
             --shadow-color: rgba(0, 230, 118, 0.2);
+
+            /* Social Colors */
+            --twitter-blue: #1DA1F2;
+            --mastodon-purple: #6364FF;
+            --github-gray: #E0E0E0; /* Using text color for GitHub to blend with dark theme */
         }
 
         body {
@@ -703,6 +708,107 @@
             color: var(--accent);
         }
 
+        /* Connect with Me Section */
+        .social-connect-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .social-card {
+            padding: 2.5rem;
+            background: var(--secondary);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .social-card.twitter:hover { border-color: var(--twitter-blue); box-shadow: 0 15px 30px rgba(29, 161, 242, 0.15); }
+        .social-card.mastodon:hover { border-color: var(--mastodon-purple); box-shadow: 0 15px 30px rgba(99, 100, 255, 0.15); }
+        .social-card.github:hover { border-color: var(--github-gray); box-shadow: 0 15px 30px rgba(224, 224, 224, 0.05); }
+
+
+        .social-icon {
+            font-size: 3.5rem; /* Larger icons */
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .social-card:hover .social-icon {
+            transform: scale(1.1);
+        }
+
+        .social-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        .social-card.twitter h3 { color: var(--twitter-blue); }
+        .social-card.mastodon h3 { color: var(--mastodon-purple); }
+        .social-card.github h3 { color: var(--github-gray); } /* Using text color for GitHub */
+
+
+        .social-card p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        .social-card .btn {
+            padding: 0.9rem 1.8rem;
+            font-size: 0.95rem;
+            width: auto;
+            border-radius: 0.5rem;
+        }
+
+        .social-card .btn.twitter-btn {
+            background: var(--twitter-blue);
+            color: white;
+            box-shadow: 0 5px 15px rgba(29, 161, 242, 0.3);
+        }
+        .social-card .btn.twitter-btn:hover {
+            background: #1991DA;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(29, 161, 242, 0.4);
+        }
+
+        .social-card .btn.mastodon-btn {
+            background: var(--mastodon-purple);
+            color: white;
+            box-shadow: 0 5px 15px rgba(99, 100, 255, 0.3);
+        }
+        .social-card .btn.mastodon-btn:hover {
+            background: #5051E6;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 100, 255, 0.4);
+        }
+
+        .social-card .btn.github-btn {
+            background: var(--tertiary);
+            color: var(--github-gray);
+            border: 1px solid var(--border);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .social-card .btn.github-btn:hover {
+            border-color: var(--github-gray);
+            color: var(--text);
+            background: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(224, 224, 224, 0.1);
+        }
+
 
         /* Contact Section */
         .contact-grid {
@@ -855,7 +961,7 @@
             .stat-number {
                 font-size: 2.5rem;
             }
-            .philosophy-card, .value-card, .process-step, .project-card, .contact-card {
+            .philosophy-card, .value-card, .process-step, .project-card, .contact-card, .social-card {
                 padding: 2rem;
             }
             .timeline {
@@ -880,7 +986,7 @@
             h2 {
                 font-size: 2rem;
             }
-            .philosophy-card h3, .value-card h3, .process-step h3, .project-card h3 {
+            .philosophy-card h3, .value-card h3, .process-step h3, .project-card h3, .social-card h3 {
                 font-size: 1.4rem;
             }
             .tech-grid {
@@ -893,6 +999,7 @@
             background: var(--accent);
             color: var(--primary);
         }
+        /* Removed feed-container as embedded feeds are no longer used */
     </style>
 </head>
 <body>
@@ -909,8 +1016,8 @@
                     <span class="text-gradient">Building Solutions Through Deep Analysis</span>
                 </h1>
                 <p class="hero-description">
-                    I transform complex business challenges into elegant technical solutions. With 24+ years 
-                    spanning software development, business leadership, and strategic consulting, I bring a 
+                    I transform complex business challenges into elegant technical solutions. With 24+ years
+                    spanning software development, business leadership, and strategic consulting, I bring a
                     unique analytical approach that combines technological expertise with business acumen.
                 </p>
                 <div class="cta-group">
@@ -950,7 +1057,7 @@
                 <div class="section-number mono">// 01</div>
                 <h2>My Approach & Philosophy</h2>
                 <p class="section-description">
-                    I don't just write code. I analyze, strategize, and architect solutions that align with 
+                    I don't just write code. I analyze, strategize, and architect solutions that align with
                     your business objectives and scale with your growth. It's about building intelligently.
                 </p>
             </div>
@@ -959,7 +1066,7 @@
                     <div class="philosophy-icon">🔍</div>
                     <h3>Deep Analysis</h3>
                     <p>
-                        Every project begins with comprehensive research and analysis. I dive deep into your 
+                        Every project begins with comprehensive research and analysis. I dive deep into your
                         requirements, business context, and technical constraints to understand the complete picture.
                     </p>
                 </div>
@@ -967,7 +1074,7 @@
                     <div class="philosophy-icon">🎯</div>
                     <h3>Strategic Thinking</h3>
                     <p>
-                        Drawing from my MBA from IIM Bangalore and years of business leadership, I ensure 
+                        Drawing from my MBA from IIM Bangalore and years of business leadership, I ensure
                         technical decisions support your strategic goals and deliver measurable ROI.
                     </p>
                 </div>
@@ -975,7 +1082,7 @@
                     <div class="philosophy-icon">⚡</div>
                     <h3>Execution Excellence</h3>
                     <p>
-                        Combining vast technical expertise with proven project management skills, I deliver 
+                        Combining vast technical expertise with proven project management skills, I deliver
                         high-quality solutions on time, with clean code and comprehensive documentation.
                     </p>
                 </div>
@@ -988,7 +1095,7 @@
                 <div class="section-number mono">// 02</div>
                 <h2>Why Partner With Me?</h2>
                 <p class="section-description">
-                    I bring a rare combination of deep technical expertise, business strategy, and 
+                    I bring a rare combination of deep technical expertise, business strategy, and
                     analytical thinking to every project, ensuring holistic and impactful solutions.
                 </p>
             </div>
@@ -997,8 +1104,8 @@
                     <div class="value-number">01</div>
                     <h3>Business-Minded Developer</h3>
                     <p>
-                        With an MBA from IIM Bangalore and 24+ years spanning sales leadership at Microsoft 
-                        to startup founding, I understand business objectives. I don't just code—I solve 
+                        With an MBA from IIM Bangalore and 24+ years spanning sales leadership at Microsoft
+                        to startup founding, I understand business objectives. I don't just code—I solve
                         business problems through technology.
                     </p>
                 </div>
@@ -1006,8 +1113,8 @@
                     <div class="value-number">02</div>
                     <h3>Research-Driven Approach</h3>
                     <p>
-                        Every project begins with thorough analysis. I research best practices, study your 
-                        industry, and analyze your competitors to ensure the solution fits your unique context 
+                        Every project begins with thorough analysis. I research best practices, study your
+                        industry, and analyze your competitors to ensure the solution fits your unique context
                         and gives you a competitive edge.
                     </p>
                 </div>
@@ -1015,8 +1122,8 @@
                     <div class="value-number">03</div>
                     <h3>Full Ownership & Accountability</h3>
                     <p>
-                        From requirement analysis to deployment and maintenance, I take complete ownership. 
-                        You get clear communication, on-time delivery, and a partner who's invested in 
+                        From requirement analysis to deployment and maintenance, I take complete ownership.
+                        You get clear communication, on-time delivery, and a partner who's invested in
                         your success.
                     </p>
                 </div>
@@ -1024,8 +1131,8 @@
                     <div class="value-number">04</div>
                     <h3>Proven Track Record</h3>
                     <p>
-                        Trusted by clients globally through Codeable. Successfully delivered 100+ projects 
-                        ranging from complex WordPress plugins to AI/ML applications. Clients return because 
+                        Trusted by clients globally through Codeable. Successfully delivered 100+ projects
+                        ranging from complex WordPress plugins to AI/ML applications. Clients return because
                         of quality and reliability.
                     </p>
                 </div>
@@ -1033,7 +1140,7 @@
                     <div class="value-number">05</div>
                     <h3>Strategic Scaling Expertise</h3>
                     <p>
-                        Led business growth from $10M to $20M at Microsoft. Grew TechGig by 400%. I understand 
+                        Led business growth from $10M to $20M at Microsoft. Grew TechGig by 400%. I understand
                         what it takes to scale, and I build solutions that grow with your business.
                     </p>
                 </div>
@@ -1041,8 +1148,8 @@
                     <div class="value-number">06</div>
                     <h3>Continuous Learning</h3>
                     <p>
-                        Actively learning cutting-edge technologies through MIT, Stanford, and other top 
-                        institutions. I stay ahead of trends in AI/ML, cloud computing, and modern web 
+                        Actively learning cutting-edge technologies through MIT, Stanford, and other top
+                        institutions. I stay ahead of trends in AI/ML, cloud computing, and modern web
                         development frameworks.
                     </p>
                 </div>
@@ -1055,7 +1162,7 @@
                 <div class="section-number mono">// 03</div>
                 <h2>My End-to-End Process</h2>
                 <p class="section-description">
-                    A structured, analytical approach that ensures quality outcomes and keeps you 
+                    A structured, analytical approach that ensures quality outcomes and keeps you
                     informed every step of the way, from concept to launch.
                 </p>
             </div>
@@ -1065,8 +1172,8 @@
                     <div class="step-content">
                         <h3>Discovery & Analysis</h3>
                         <p>
-                            Deep dive into your requirements, business context, user needs, and technical 
-                            constraints. I research your industry, analyze competitors, and identify best 
+                            Deep dive into your requirements, business context, user needs, and technical
+                            constraints. I research your industry, analyze competitors, and identify best
                             practices to inform the solution design.
                         </p>
                     </div>
@@ -1076,8 +1183,8 @@
                     <div class="step-content">
                         <h3>Strategic Planning</h3>
                         <p>
-                            Create a comprehensive project plan with clear milestones, deliverables, and 
-                            success metrics. I propose the optimal technology stack and architecture based 
+                            Create a comprehensive project plan with clear milestones, deliverables, and
+                            success metrics. I propose the optimal technology stack and architecture based
                             on research and your specific needs.
                         </p>
                     </div>
@@ -1087,8 +1194,8 @@
                     <div class="step-content">
                         <h3>Iterative Development</h3>
                         <p>
-                            Build in sprints with regular check-ins and demos. You see progress continuously, 
-                            provide feedback early, and we course-correct as needed. Clean, documented, 
+                            Build in sprints with regular check-ins and demos. You see progress continuously,
+                            provide feedback early, and we course-correct as needed. Clean, documented,
                             maintainable code is non-negotiable.
                         </p>
                     </div>
@@ -1098,7 +1205,7 @@
                     <div class="step-content">
                         <h3>Testing & Quality Assurance</h3>
                         <p>
-                            Rigorous testing across devices, browsers, and scenarios. Performance optimization, 
+                            Rigorous testing across devices, browsers, and scenarios. Performance optimization,
                             security hardening, and accessibility compliance. I deliver production-ready solutions.
                         </p>
                     </div>
@@ -1108,8 +1215,8 @@
                     <div class="step-content">
                         <h3>Deployment & Support</h3>
                         <p>
-                            Smooth deployment with minimal disruption. Comprehensive documentation and training. 
-                            Post-launch support to ensure everything runs perfectly. I'm available for 
+                            Smooth deployment with minimal disruption. Comprehensive documentation and training.
+                            Post-launch support to ensure everything runs perfectly. I'm available for
                             maintenance and future enhancements.
                         </p>
                     </div>
@@ -1123,7 +1230,7 @@
                 <div class="section-number mono">// 04</div>
                 <h2>Technology Expertise & Radar</h2>
                 <p class="section-description">
-                    My proficiency across a diverse technology stack, visualized. Level 1 = Learning, Level 5 = Mastery. 
+                    My proficiency across a diverse technology stack, visualized. Level 1 = Learning, Level 5 = Mastery.
                     Hover over points for detailed experience.
                 </p>
             </div>
@@ -1216,7 +1323,7 @@
                 <div class="section-number mono">// 05</div>
                 <h2>Featured Solutions</h2>
                 <p class="section-description">
-                    A selection of recent projects showcasing custom development, complex integrations, 
+                    A selection of recent projects showcasing custom development, complex integrations,
                     and innovative solutions tailored to specific business needs.
                 </p>
             </div>
@@ -1231,12 +1338,12 @@
                         </div>
                         <h3>DTF Express & Addon Plugins</h3>
                         <p>
-                            Comprehensive e-commerce solution featuring custom product creation, REST API-based 
-                            React frontend and admin screens, dynamic pricing engine, discount management, 
+                            Comprehensive e-commerce solution featuring custom product creation, REST API-based
+                            React frontend and admin screens, dynamic pricing engine, discount management,
                             campaign tracking, custom order processing, and multiple API integrations.
                         </p>
                         <a href="https://printpunk.com/" target="_blank" class="project-link">
-                            View Live Site 
+                            View Live Site
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17L17 7"/></svg>
                         </a>
                     </div>
@@ -1251,12 +1358,12 @@
                         </div>
                         <h3>Smoobu Sync & Single Page Checkout</h3>
                         <p>
-                            Developed a sophisticated booking system with real-time synchronization with Smoobu 
-                            API, custom single-page checkout experience, and seamless integration with existing 
+                            Developed a sophisticated booking system with real-time synchronization with Smoobu
+                            API, custom single-page checkout experience, and seamless integration with existing
                             WooCommerce infrastructure for a luxury accommodation booking platform.
                         </p>
                         <a href="https://book-a-bubble.de/en/" target="_blank" class="project-link">
-                            View Live Site 
+                            View Live Site
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17L17 7"/></svg>
                         </a>
                     </div>
@@ -1271,9 +1378,9 @@
                         </div>
                         <h3>Golf Swing Prediction Model</h3>
                         <p>
-                            Built an advanced machine learning model to predict golf swing patterns from Apple 
-                            Watch sensor data. Implemented multiple signal processing techniques including 
-                            Butterworth filters, VQF, and Savitzky-Golay filters, utilizing PyTorch and 
+                            Built an advanced machine learning model to predict golf swing patterns from Apple
+                            Watch sensor data. Implemented multiple signal processing techniques including
+                            Butterworth filters, VQF, and Savitzky-Golay filters, utilizing PyTorch and
                             TensorFlow for model training.
                         </p>
                          <a href="#" class="project-link">
@@ -1292,8 +1399,8 @@
                         </div>
                         <h3>AI-Powered Park Exploration Planner</h3>
                         <p>
-                            Created an intelligent application leveraging LLaMA 3.1 to help park visitors design 
-                            optimal exploration routes. Built with Django backend and cross-platform frontend 
+                            Created an intelligent application leveraging LLaMA 3.1 to help park visitors design
+                            optimal exploration routes. Built with Django backend and cross-platform frontend
                             using React and React Native for seamless mobile and web experiences.
                         </p>
                         <a href="#" class="project-link">
@@ -1311,12 +1418,12 @@
                         </div>
                         <h3>Webinar Management System</h3>
                         <p>
-                            Developed a comprehensive Gutenberg-based webinar management plugin with custom 
-                            blocks, registration handling, automated email notifications, and seamless 
+                            Developed a comprehensive Gutenberg-based webinar management plugin with custom
+                            blocks, registration handling, automated email notifications, and seamless
                             integration with popular webinar platforms.
                         </p>
                         <a href="https://github.com/dhitimedin/st-webinar-management" target="_blank" class="project-link">
-                            View on GitHub 
+                            View on GitHub
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.44-.78-3.46 0 0-1-3-1.4-3.5-.5-.3-1.2-.3-1.8.1 0 0-1.5 1-3 1.5-1.2-.3-2.4-.3-3.5 0-1.5-.5-3-1.5-3-1.5-.6-.4-1.3-.3-1.8.1-.4.5-1.4 3-1.4 3-.5.92-.78 2.03-.75 3.18 0 3.5 3 5.5 6 5.5-.3.6-.6 1.2-.6 2v4"/></svg>
                         </a>
                     </div>
@@ -1330,12 +1437,12 @@
                         </div>
                         <h3>NGO & Rural Development Websites</h3>
                         <p>
-                            Designed and developed complete WordPress solutions including custom themes, plugins, 
-                            and content management systems for non-profit organizations focused on rural 
+                            Designed and developed complete WordPress solutions including custom themes, plugins,
+                            and content management systems for non-profit organizations focused on rural
                             development and sustainable energy initiatives.
                         </p>
                         <a href="https://mithunrural.org" target="_blank" class="project-link">
-                            View Mithun Rural 
+                            View Mithun Rural
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17L17 7"/></svg>
                         </a>
                     </div>
@@ -1349,7 +1456,7 @@
                 <div class="section-number mono">// 06</div>
                 <h2>My Professional Journey</h2>
                 <p class="section-description">
-                    From engineering and sales leadership at Microsoft to entrepreneurship and 
+                    From engineering and sales leadership at Microsoft to entrepreneurship and
                     freelance development, my diverse background brings unique perspectives to every project.
                 </p>
             </div>
@@ -1359,8 +1466,8 @@
                     <h3>Freelance Developer</h3>
                     <div class="timeline-company">Remote</div>
                     <div class="timeline-description">
-                        Providing custom WordPress, full-stack development, and AI/ML solutions to clients 
-                        globally. Specializing in complex plugin development, API integrations, and data-driven 
+                        Providing custom WordPress, full-stack development, and AI/ML solutions to clients
+                        globally. Specializing in complex plugin development, API integrations, and data-driven
                         applications. Continuously expanding expertise in modern frameworks and emerging technologies.
                     </div>
                 </div>
@@ -1383,8 +1490,8 @@
                     <h3>VP Sales and Partnership</h3>
                     <div class="timeline-company">3LOQ Labs • Mumbai</div>
                     <div class="timeline-description">
-                        Led business development for a big data analytics startup focused on transaction 
-                        intelligence. Created data pipelines and AI models, managed partnerships with HDFC Bank, 
+                        Led business development for a big data analytics startup focused on transaction
+                        intelligence. Created data pipelines and AI models, managed partnerships with HDFC Bank,
                         Hungama, IRCTC, and expanded operations across India and South East Asia.
                     </div>
                 </div>
@@ -1393,8 +1500,8 @@
                     <h3>Co-founder & India Head</h3>
                     <div class="timeline-company">GlocalEdge Consultants • Noida</div>
                     <div class="timeline-description">
-                        Built digital marketing services company and SaaS-based social media management tool. 
-                        Achieved 6X revenue growth, 90% customer retention, serving government ministries and 
+                        Built digital marketing services company and SaaS-based social media management tool.
+                        Achieved 6X revenue growth, 90% customer retention, serving government ministries and
                         private enterprises.
                     </div>
                 </div>
@@ -1403,8 +1510,8 @@
                     <h3>Developer Tools Sales Lead</h3>
                     <div class="timeline-company">Microsoft Corporation India</div>
                     <div class="timeline-description">
-                        Progressed through multiple leadership roles across regions, growing business from $10M 
-                        to $20M. Successfully penetrated government institutions (ISRO, DRDO, Ministry of Defence) 
+                        Progressed through multiple leadership roles across regions, growing business from $10M
+                        to $20M. Successfully penetrated government institutions (ISRO, DRDO, Ministry of Defence)
                         and major enterprises across banking, telecom, manufacturing, and pharmaceutical sectors.
                     </div>
                 </div>
@@ -1413,8 +1520,8 @@
                     <h3>Software Engineer & Pre-Sales Consultant</h3>
                     <div class="timeline-company">Wipro Technologies & Borland Software</div>
                     <div class="timeline-description">
-                        Started career as software engineer working with J2EE, C++, and various enterprise 
-                        technologies. Transitioned to pre-sales, winning multi-million dollar contracts and 
+                        Started career as software engineer working with J2EE, C++, and various enterprise
+                        technologies. Transitioned to pre-sales, winning multi-million dollar contracts and
                         supporting 100% year-on-year growth through technical expertise and proposal development.
                     </div>
                 </div>
@@ -1427,7 +1534,7 @@
                 <div class="section-number mono">// 07</div>
                 <h2>Education & Continuous Learning</h2>
                 <p class="section-description">
-                    A foundation of strong academic credentials, complemented by a commitment to lifelong 
+                    A foundation of strong academic credentials, complemented by a commitment to lifelong
                     learning in cutting-edge technologies and strategic fields.
                 </p>
             </div>
@@ -1457,13 +1564,56 @@
             </div>
         </section>
 
+        <!-- Connect with Me Section -->
+        <section id="connect">
+            <div class="section-header">
+                <div class="section-number mono">// 08</div>
+                <h2>Connect With Me</h2>
+                <p class="section-description">
+                    Stay updated with my latest thoughts, projects, and insights. Follow me on social media or explore my code on GitHub.
+                </p>
+            </div>
+            <div class="social-connect-grid">
+                <div class="social-card twitter">
+                    <div class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--twitter-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17-17 11.6 2.2.1 4.4-.6 6-2 1.1-.9 1.9-2.2 2.5-3.7C14.8 9.1 16 8 17.5 7H22c-2.8-.8-5-2-7-4"/></svg>
+                    </div>
+                    <h3>Twitter / X</h3>
+                    <p>My latest thoughts, tech insights, and project updates.</p>
+                    <a href="https://x.com/nisitkumar" target="_blank" class="btn twitter-btn">
+                        Follow on Twitter
+                    </a>
+                </div>
+                <div class="social-card mastodon">
+                    <div class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="var(--mastodon-purple)" stroke="none" class="lucide lucide-mastodon"><path d="M19.7 13.7c-2.5 2.5-6.7 2.7-8.7 2c-3.7-1.1-6.7-4.1-7.9-7.7c-1.2-3.8-.5-7.6 1.4-9.2C6.5.6 10 .3 13.6 1.7c4.6 1.7 6.4 7.6 5.8 11.6z"/></svg>
+                    </div>
+                    <h3>Mastodon</h3>
+                    <p>More in-depth discussions and community engagement.</p>
+                    <a href="https://mastodon.social/@nisitkumar" target="_blank" class="btn mastodon-btn">
+                        Follow on Mastodon
+                    </a>
+                </div>
+                <div class="social-card github">
+                    <div class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="var(--github-gray)" stroke="var(--github-gray)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.44-.78-3.46 0 0-1-3-1.4-3.5-.5-.3-1.2-.3-1.8.1 0 0-1.5 1-3 1.5-1.2-.3-2.4-.3-3.5 0-1.5-.5-3-1.5-3-1.5-.6-.4-1.3-.3-1.8.1-.4.5-1.4 3-1.4 3-.5.92-.78 2.03-.75 3.18 0 3.5 3 5.5 6 5.5-.3.6-.6 1.2-.6 2v4"/></svg>
+                    </div>
+                    <h3>GitHub</h3>
+                    <p>Explore my open-source contributions and project code.</p>
+                    <a href="https://github.com/nisit" target="_blank" class="btn github-btn">
+                        View GitHub Profile
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- Contact Section -->
         <section id="contact">
             <div class="section-header">
-                <div class="section-number mono">// 08</div>
+                <div class="section-number mono">// 09</div> <!-- Updated section number -->
                 <h2>Let's Collaborate</h2>
                 <p class="section-description">
-                    I'm available for freelance projects, consulting, and full-time opportunities. 
+                    I'm available for freelance projects, consulting, and full-time opportunities.
                     Reach out via email, phone, or schedule a free 30-minute consultation to discuss your needs.
                 </p>
             </div>
@@ -1546,7 +1696,7 @@
         }, observerOptions);
 
         // Observe all cards and timeline items
-        document.querySelectorAll('.philosophy-card, .project-card, .timeline-item, .expertise-category, .value-card, .process-step, .contact-card').forEach((el, index) => {
+        document.querySelectorAll('.philosophy-card, .project-card, .timeline-item, .expertise-category, .value-card, .process-step, .contact-card, .social-card').forEach((el, index) => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
             el.style.transition = 'opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
@@ -1634,7 +1784,7 @@
                     r: {
                         angleLines: { color: 'var(--border)' },
                         grid: { color: 'rgba(44, 44, 44, 0.5)' },
-                        pointLabels: { 
+                        pointLabels: {
                             font: { size: 13, weight: '600', family: 'IBM Plex Mono' },
                             color: 'var(--text-muted)'
                         },
@@ -1657,5 +1807,5 @@
             }
         });
     </script>
-</body>
+    </body>
 </html>
