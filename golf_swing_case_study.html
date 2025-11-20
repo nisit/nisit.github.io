@@ -237,7 +237,7 @@
         <div class="metrics-grid">
             <div class="metric-card success">
                 <span class="metric-value">+28.4%</span>
-                <span class="metric-label">Groove Consistency Accuracy</span>
+                <span class="metric-label">Swing Consistency Accuracy</span>
             </div>
             <div class="metric-card success">
                 <span class="metric-value">27.8%</span>
@@ -252,7 +252,7 @@
         <section>
             <h2>1. The Engineering Challenge</h2>
             <p>
-                In wearable sports analytics, the "Groove Score" metric quantifies how consistently a player replicates their ideal biomechanical pattern. Our initial deployment relied on standard industry frequency-domain filtering (Butterworth) to handle sensor noise.
+                In wearable sports analytics, the "Swing Score" metric quantifies how consistently a player replicates their ideal biomechanical pattern. Our initial deployment relied on standard industry frequency-domain filtering (Butterworth) to handle sensor noise.
             </p>
             <p>
                 <strong>The Anomaly:</strong> While noise was successfully reduced, high-velocity swings were receiving lower consistency scores than expected. Additionally, impact acceleration data—the "snap" of the club hitting the ball—was registering near zero, which is physically impossible.
@@ -311,7 +311,7 @@
             </p>
 
             <h3>A. Accuracy on Professional Swings</h3>
-            <p><em>Lower Groove Score = Higher Consistency. Lower NRMSD = Better Data Fit.</em></p>
+            <p><em>Lower Swing Score = Higher Consistency. Lower NRMSD = Better Data Fit.</em></p>
             <table>
                 <thead>
                     <tr>
@@ -323,7 +323,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Groove Score</strong></td>
+                        <td><strong>Swing Score</strong></td>
                         <td>6.2 ± 1.2</td>
                         <td>4.5 ± 1.2</td>
                         <td style="color: var(--success); font-weight: bold;">+28.4%</td>
@@ -345,7 +345,7 @@
 
             <h3>B. Robustness Check</h3>
             <p>
-                Crucially, the new algorithm <strong>does not</strong> artificially improve bad swings. When tested against the "Erroneous" dataset, the model correctly identified poor consistency, maintaining a high Groove Score (10.0), confirming that the improvements are physically genuine and not just a lowering of the baseline.
+                Crucially, the new algorithm <strong>does not</strong> artificially improve bad swings. When tested against the "Erroneous" dataset, the model correctly identified poor consistency, maintaining a high Swing Score (10.0), confirming that the improvements are physically genuine and not just a lowering of the baseline.
             </p>
         </section>
 
@@ -354,7 +354,7 @@
                 <div class="impact-title"><i class="fas fa-chart-line"></i> Strategic Value</div>
                 <ul style="padding-left: 20px; margin: 0;">
                     <li><strong>Product Credibility:</strong> We can now display "Impact Force" metrics to users, a highly requested feature that was previously technically impossible.</li>
-                    <li><strong>Coaching Accuracy:</strong> The "Groove Score" now correlates 28% more tightly with visual coaching assessments.</li>
+                    <li><strong>Coaching Accuracy:</strong> The "Swing Score" now correlates 28% more tightly with visual coaching assessments.</li>
                     <li><strong>IP Robustness:</strong> The shift to time-domain processing creates a distinct, defensible methodology separating us from competitors using standard library filters.</li>
                 </ul>
             </div>
