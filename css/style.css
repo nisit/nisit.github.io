@@ -639,9 +639,10 @@ h2 {
 }
 
 .tech-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	display: flex;
+	flex-wrap: wrap;
 	gap: 1.2rem;
+	align-items: flex-start;
 }
 
 .tech-item {
@@ -654,6 +655,19 @@ h2 {
 	border: 1px solid var(--border);
 	color: var(--text-muted);
 	font-family: 'IBM Plex Mono', monospace;
+	
+	/* Ensure text stays inside */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	
+	/* Allow item to size based on content */
+	flex: 0 1 auto;
+	min-width: fit-content;
+	max-width: 100%;
+	
+	/* Prevent text from breaking */
+	word-break: keep-all;
 }
 
 .tech-item:hover {
@@ -662,6 +676,30 @@ h2 {
 	color: var(--accent);
 	background: rgba(0, 230, 118, 0.05);
 }
+
+/* Alternative approach: Allow wrapping for longer tech names */
+/* Uncomment this if you prefer multi-line tech items instead of ellipsis */
+/*
+.tech-item {
+	padding: 1rem 1.25rem;
+	background: var(--tertiary);
+	border-radius: 0.6rem;
+	text-align: center;
+	font-size: 0.95rem;
+	transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+	border: 1px solid var(--border);
+	color: var(--text-muted);
+	font-family: 'IBM Plex Mono', monospace;
+	
+	flex: 0 1 auto;
+	min-width: max-content;
+	max-width: 200px;
+	
+	word-wrap: break-word;
+	hyphens: auto;
+	line-height: 1.4;
+}
+*/
 
 /* Projects Section */
 .projects-grid {
