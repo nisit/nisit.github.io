@@ -855,6 +855,12 @@ h2 {
 	position: relative;
 	padding-left: 0;
 	padding-top: 2rem;
+	padding-bottom: 2rem;
+	/* Add horizontal padding to prevent edge clipping */
+	padding-left: 1rem;
+	padding-right: 1rem;
+	/* Ensure overflow is visible */
+	overflow: visible;
 }
 
 .timeline::before {
@@ -876,6 +882,8 @@ h2 {
 	margin-bottom: 4rem;
 	position: relative;
 	align-items: flex-start;
+	/* Ensure overflow is visible for this item too */
+	overflow: visible;
 }
 
 .timeline-item::before {
@@ -895,7 +903,7 @@ h2 {
 
 .timeline-item:nth-child(odd) {
 	text-align: right;
-	grid-template-columns: 1fr auto; /* Adjusted for better alignment */
+	grid-template-columns: 1fr auto;
 	padding-right: calc(50% + 2rem);
 }
 
@@ -905,7 +913,7 @@ h2 {
 
 .timeline-item:nth-child(even) {
 	text-align: left;
-	grid-template-columns: auto 1fr; /* Adjusted for better alignment */
+	grid-template-columns: auto 1fr;
 	padding-left: calc(50% + 2rem);
 }
 
@@ -920,19 +928,24 @@ h2 {
 	border-radius: 1rem;
 	transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 	position: relative;
+	/* Ensure the content itself doesn't clip */
+	overflow: visible;
 }
 
 .timeline-content:hover {
 	border-color: var(--accent-dark);
 	box-shadow: 0 10px 20px rgba(0, 230, 118, 0.1);
-	transform: scale(1.02); /* Added for punch */
+	transform: scale(1.02);
 }
 
 .timeline-item:nth-child(odd) .timeline-content:hover {
-	transform: translateX(-8px) scale(1.02);
+	/* Reduced translateX to prevent edge clipping */
+	transform: translateX(-6px) scale(1.02);
 }
+
 .timeline-item:nth-child(even) .timeline-content:hover {
-	transform: translateX(8px) scale(1.02);
+	/* Reduced translateX to prevent edge clipping */
+	transform: translateX(6px) scale(1.02);
 }
 
 .timeline-year {
