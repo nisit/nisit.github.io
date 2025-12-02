@@ -412,8 +412,8 @@ class ContentRenderer {
                         <h3>${item.degree}</h3>
                         <p style="color: var(--accent); font-weight: 600; margin-bottom: 0.5rem;">
                             ${item.institution}
+                            <span class="mono"> -(${item.year})</span>
                         </p>
-                        <p>${item.year}</p>
                     </div>
                 `;
             } else if (item.type === 'certifications') {
