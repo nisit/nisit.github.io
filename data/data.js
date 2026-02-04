@@ -135,10 +135,10 @@ const portfolioData = {
             description: "Comprehensive e-commerce solution featuring custom product creation, REST API-based React frontend and admin screens, dynamic pricing engine, discount management, campaign tracking, custom order processing, and multiple API integrations.",
             tags: ["WordPress", "WooCommerce", "Custom Plugin", "React"],
             link: {
-                url: "https://printpunk.com/",
-                text: "View Live Site",
-                type: "external", // external, internal, github
-                target: "_blank"
+                url: "./dtf-printer-technical-case-study.html",
+                text: "View Case Study",
+                type: "internal", // external, internal, github
+                target: null
             }
         },
         {

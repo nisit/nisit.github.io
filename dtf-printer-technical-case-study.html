@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.5; color: #2c3e50; max-width: 900px; margin: auto; padding: 40px; }
+        .no-print { text-align: right; margin-bottom: 20px; }
+        button { padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        h1, h2, h3 { color: #2980b9; }
+        .tech-stack { background: #f9f9f9; border-left: 5px solid #2980b9; padding: 15px; margin: 20px 0; }
+        .pattern-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .pattern-card { border: 1px solid #ddd; padding: 15px; border-radius: 5px; }
+        .code-logic { background: #2d3436; color: #dfe6e9; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 13px; }
+        @media print { .no-print { display: none; } body { padding: 0; } }
+    </style>
+</head>
+<body>
+
+<div class="no-print">
+    <button onclick="window.print()">Generate PDF Brief</button>
+</div>
+
+<h1>Technical Architecture: Direct-to-Film (DTF) Express</h1>
+<p><strong>Project Scope:</strong> Scalable Industrial Print E-Commerce Portal<br>
+<strong>Performance:</strong> 7-Digit Annual Revenue Support | 0% Downtime</p>
+
+<div class="tech-stack">
+    <strong>Architecture Overview:</strong> A highly decoupled WordPress/WooCommerce implementation using a custom <code>dtf_booking</code> product type. The system utilizes a reactive frontend (JSX) and a robust PHP backend driven by modern Design Patterns to ensure maintainability and high-speed execution.
+</div>
+
+<h2>1. Design Patterns & OOP Implementation</h2>
+<p>To support rapid scaling and feature expansion, the following patterns were implemented:</p>
+<div class="pattern-grid">
+    <div class="pattern-card">
+        <strong>Strategy Pattern</strong><br>
+        Used for dynamic pricing. The system hot-swaps calculation logic (Fixed, Variable, or Length-based) at runtime based on product metadata.
+    </div>
+    <div class="pattern-card">
+        <strong>Dependency Injection & Container</strong><br>
+        Decouples services (Image processing, Cart logic, Shipping sync) and utilizes lazy loading to maintain a low memory footprint.
+    </div>
+    <div class="pattern-card">
+        <strong>Singleton & Registry</strong><br>
+        Ensures global state consistency for critical settings and shared database connections across custom tables.
+    </div>
+    <div class="pattern-card">
+        <strong>Zero-Trust Pricing Model</strong><br>
+        Cross-layer validation. Frontend provides UI feedback, while the Backend re-executes the entire logic from raw data upon <code>add_to_cart</code>.
+    </div>
+</div>
+
+<h2>2. Advanced Logic: The "Simulated Cart" Order Modification</h2>
+<p>One of the system's most complex features is the <strong>Post-Purchase Order Modification</strong>. This allows users to pause a live production order and edit items without a full cancellation/refund cycle.</p>
+<ul>
+    <li><strong>Simulation Layer:</strong> When an order is edited, the system hydrates a "Simulated Cart" with existing order items, applied discounts, and shipping fees.</li>
+    <li><strong>Wallet Adjustment Logic:</strong> Variations in price (due to quantity or size changes) are calculated as a <code>Wallet Adjustment Fee</code>. The system handles negative adjustments and tax-inclusive recalculations in real-time.</li>
+    <li><strong>Production Sync:</strong> Orders are paused/resumed via Supabase integration, ensuring the printing "gang-sheet" queue is updated instantly to prevent waste.</li>
+</ul>
+
+<h2>3. Data Integrity & Infrastructure</h2>
+<h3>Custom Schema Design</h3>
+<p>To offload heavy metadata and history from the standard WP tables, the system uses specialized tables for:</p>
+<ul>
+    <li><strong>Creative Management:</strong> User/Order creative tracking for instant re-ordering.</li>
+    <li><strong>Shipment Intelligence:</strong> Status history tracking (DHL/UPS) for predictive delivery timeline modeling.</li>
+    <li><strong>Financial Audit:</strong> Storage of original totals and tax for post-order adjustments.</li>
+</ul>
+
+<h3>Automated Lifecycle Management</h3>
+<p>The system maintains a clean production environment via scheduled CRON jobs:</p>
+<ul>
+    <li><strong>Storage Optimization:</strong> Automated purging of high-resolution production files (multi-GB) after a set retention period, balancing server load and order history needs.</li>
+    <li><strong>Sync Engine:</strong> 30-day lookback on completed orders to sync actual delivery data with Shiptastic and DHL, building a historical dataset for shipping performance.</li>
+</ul>
+
+<h2>4. Performance & Reliability</h2>
+<ul>
+    <li><strong>Uptime:</strong> The platform has seen zero downtime over a 24-month period despite rapid 7-digit revenue growth.</li>
+    <li><strong>Security:</strong> All calculations are server-side "Source of Truth," preventing client-side injection of pricing or discount data.</li>
+    <li><strong>Scalability:</strong> Modular Add-On architecture (Gamification, Role-based Discounting) allows for feature expansion without touching core booking logic.</li>
+</ul>
+
+<hr>
+<p style="font-size: 12px; color: #7f8c8d;">Proprietary & Confidential - Prepared by Lead Systems Architect</p>
+
+</body>
+</html>
