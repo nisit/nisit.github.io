@@ -131,9 +131,9 @@ const portfolioData = {
     // Projects
     projects: [
         {
-            title: "DTF Express & Addon Plugins",
-            description: "Comprehensive e-commerce solution featuring custom product creation, REST API-based React frontend and admin screens, dynamic pricing engine, discount management, campaign tracking, custom order processing, and multiple API integrations.",
-            tags: ["WordPress", "WooCommerce", "Custom Plugin", "React"],
+            title: "Scaling a 7-Digit Industrial Print Leader",
+            description: "Architected a proprietary DTF e-commerce ecosystem that scaled a German startup from zero to 7-digit annual revenue in 24 months. This mission-critical platform features a reactive React frontend, high-precision dynamic pricing, and has maintained zero downtime since launch.",
+            tags: ["WordPress", "WooCommerce", "Custom Plugin", "React/REST API"],
             link: {
                 url: "./dtf-printer-technical-case-study.html",
                 text: "View Case Study",
