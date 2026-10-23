@@ -198,6 +198,56 @@ const portfolioData = {
         }
     ],
 
+    // Performance Engineering Case Studies
+    // Each metric bar: before/after are numbers in the same unit (lower is better).
+    // `afterLabel` overrides the displayed value (e.g. "sub-second"); `changeLabel` overrides the % badge.
+    performance: {
+        highlights: [
+            { value: "-47%", label: "Checkout TTFB", detail: "5.64s → 2.97s" },
+            { value: "-91%", label: "Storage Footprint", detail: "38.3 GB → 3.3 GB" },
+            { value: "8s → <1s", label: "Background Removal", detail: "grabCut → guided filter" },
+            { value: "4×", label: "Resolution Ceiling", detail: "24 MP → 100+ MP" }
+        ],
+        caseStudies: [
+            {
+                category: "WooCommerce • Infrastructure",
+                title: "E-Commerce Store Performance Optimization",
+                description: "Cut cart and checkout latency nearly in half on shared hosting with no server-level access. Conditional MU-plugins unload non-essential scripts on dynamic routes, the database was pruned to an HPOS schema, and a multi-layer bot guard stopped automated scans.",
+                metrics: [
+                    { label: "Checkout TTFB", before: 5.64, after: 2.97, unit: "s" },
+                    { label: "Cart TTFB", before: 3.74, after: 2.16, unit: "s" },
+                    { label: "Autoloaded DB payload", before: 12.48, after: 0.46, unit: "MB" },
+                    { label: "Disk footprint", before: 38.3, after: 3.3, unit: "GB" }
+                ],
+                outcomes: ["Mobile PageSpeed 43–55 → 81", "404 bot scans −95%", "No hosting upgrade"],
+                tags: ["WooCommerce", "MySQL / HPOS", "Core Web Vitals", "Cloudflare"],
+                link: {
+                    url: "./e_commerce_store_performance_optimization_case_study.html",
+                    text: "View Case Study",
+                    type: "internal",
+                    target: null
+                }
+            },
+            {
+                category: "Python • Computer Vision",
+                title: "High-Resolution Image Pipeline Optimization",
+                description: "Profiled a production DTF print pipeline and found the heaviest stage was redundant. Replaced full-frame cv2.grabCut with a guided filter, moved conversions to pyVips with parallel stages, and exposed the pipeline as a FastAPI service.",
+                metrics: [
+                    { label: "Image normalization", before: 12, after: 3, unit: "s" },
+                    { label: "Background removal", before: 8, after: 0.6, unit: "s", afterLabel: "sub-second", changeLabel: ">87%" }
+                ],
+                outcomes: ["24 MP → 100+ MP inputs", "2px edges preserved", "Print-safe alpha"],
+                tags: ["Python", "FastAPI", "OpenCV", "pyVips", "NumPy"],
+                link: {
+                    url: "./image_pipeline_optimization_case_study.html",
+                    text: "View Case Study",
+                    type: "internal",
+                    target: null
+                }
+            }
+        ]
+    },
+
     // Experience Timeline
     journey: [
         {
@@ -334,9 +384,11 @@ const portfolioData = {
             "Node.js",
             "Python",
             "Django",
+            "FastAPI",
             "Next.js",
             "WooCommerce",
             "PyTorch",
+            "OpenCV",
             "AWS",
             "Docker"
         ],
@@ -362,6 +414,7 @@ const portfolioData = {
                     "Node.js",
                     "Express.js",
                     "Django",
+                    "FastAPI",
                     "Flask",
                     "Python",
                     "JavaScript",
@@ -381,6 +434,9 @@ const portfolioData = {
                     "Pandas",
                     "NumPy",
                     "Scikit-learn",
+                    "OpenCV",
+                    "pyVips",
+                    "Computer Vision",
                     "Data Analysis"
                 ]
             },
@@ -394,7 +450,8 @@ const portfolioData = {
                     "NGINX",
                     "Apache",
                     "CI/CD",
-                    "DevOps"
+                    "DevOps",
+                    "Performance Profiling"
                 ]
             }
         ]

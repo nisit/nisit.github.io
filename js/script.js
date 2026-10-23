@@ -10,7 +10,34 @@ class PortfolioManager {
         this.initSmoothScroll();
         this.initIntersectionObserver();
         this.initSkillBars();
+        this.initPerfBars();
         this.initRadarChart();
+    }
+
+    // Animated before/after bars in the Performance section
+    initPerfBars() {
+        const cards = document.querySelectorAll('.perf-card');
+        if (!cards.length) return;
+
+        const fill = (card) => card.querySelectorAll('.perf-bar').forEach(bar => {
+            bar.style.width = bar.dataset.width + '%';
+        });
+
+        if (!('IntersectionObserver' in window)) {
+            cards.forEach(fill);
+            return;
+        }
+
+        const barObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    fill(entry.target);
+                    barObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        cards.forEach(card => barObserver.observe(card));
     }
 
     // Scroll Progress Bar
@@ -65,7 +92,9 @@ class PortfolioManager {
             '.contact-card',
             '.social-card',
             '.solution-card',
-            '.stat-card'
+            '.stat-card',
+            '.perf-card',
+            '.perf-stat'
         ];
 
         animatedElements.forEach(selector => {
@@ -381,6 +410,74 @@ class ContentRenderer {
         `).join('');
     }
 
+    renderPerformance() {
+        const section = document.querySelector('#performance');
+        const perf = this.data.performance;
+        if (!section || !perf) return;
+
+        const highlights = section.querySelector('.perf-highlights');
+        if (highlights) {
+            highlights.innerHTML = perf.highlights.map(h => `
+                <div class="perf-stat">
+                    <span class="perf-stat-value text-gradient">${h.value}</span>
+                    <span class="perf-stat-label">${h.label}</span>
+                    <span class="perf-stat-detail mono">${h.detail}</span>
+                </div>
+            `).join('');
+        }
+
+        const grid = section.querySelector('.perf-grid');
+        if (!grid) return;
+
+        const fmt = (v, unit) => `${v} ${unit}`;
+
+        grid.innerHTML = perf.caseStudies.map(cs => {
+            const bars = cs.metrics.map(m => {
+                const afterPct = Math.max(3, (m.after / m.before) * 100);
+                const change = Math.round((1 - m.after / m.before) * 100);
+                return `
+                    <div class="perf-metric">
+                        <div class="perf-metric-head">
+                            <span>${m.label}</span>
+                            <span class="perf-metric-change mono">${m.changeLabel || `−${change}%`}</span>
+                        </div>
+                        <div class="perf-bar-row">
+                            <div class="perf-bar-track"><div class="perf-bar perf-bar-before" data-width="100"></div></div>
+                            <span class="perf-bar-value mono before">${fmt(m.before, m.unit)}</span>
+                        </div>
+                        <div class="perf-bar-row">
+                            <div class="perf-bar-track"><div class="perf-bar perf-bar-after" data-width="${afterPct.toFixed(1)}"></div></div>
+                            <span class="perf-bar-value mono after">${m.afterLabel || fmt(m.after, m.unit)}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <article class="perf-card">
+                    <div class="perf-category mono">${cs.category}</div>
+                    <h3>${cs.title}</h3>
+                    <p>${cs.description}</p>
+                    <div class="perf-legend mono">
+                        <span><i class="dot before"></i>Before</span>
+                        <span><i class="dot after"></i>After</span>
+                    </div>
+                    <div class="perf-metrics">${bars}</div>
+                    <ul class="perf-outcomes">
+                        ${cs.outcomes.map(o => `<li>${o}</li>`).join('')}
+                    </ul>
+                    <div class="project-tags">
+                        ${cs.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <a href="${cs.link.url}" class="project-link"${cs.link.target ? ` target="${cs.link.target}"` : ''}>
+                        ${cs.link.text}
+                        ${this.getProjectSvgIcon(cs.link.type)}
+                    </a>
+                </article>
+            `;
+        }).join('');
+    }
+
     renderJourney() {
         const container = document.querySelector('#journey .timeline');
         if (!container) return;
@@ -509,6 +606,7 @@ class ContentRenderer {
 		this.renderWhyWorkWithMe();
 		 this.renderTechRadar();
         this.renderProjects();
+        this.renderPerformance();
         this.renderJourney();
 		this.renderEducation();
         this.renderSocial();

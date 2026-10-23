@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Performance Dynamics: A Modular Optimization Case Study</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html2pdf.js CDN for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            margin: 0;
+            padding: 32px 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Printable A4 Container */
+        .page-card {
+            max-width: 840px;
+            min-height: 1100px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 32px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Fixed Floating Download Button (Bottom Right) */
+        .fixed-btn-bottom-right {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+        }
+
+        /* Custom Table Styling matching golf_swing_case_study.html */
+        .custom-table th {
+            background-color: #0f2a4a;
+            color: #ffffff;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.04em;
+            padding: 10px 14px;
+        }
+
+        .custom-table td {
+            padding: 10px 14px;
+            font-size: 12px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .custom-table tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        /* Callout Box styling */
+        .strategic-card {
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px 20px;
+        }
+
+        /* Print Media Guard */
+        @media print {
+            body {
+                background: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .page-card {
+                box-shadow: none !important;
+                border: none !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                padding: 20px 24px !important;
+                border-radius: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Download Button (Bottom Right Position) -->
+    <div class="no-print fixed-btn-bottom-right">
+        <button id="download-pdf-btn" onclick="generatePDF()" class="flex items-center space-x-2.5 bg-[#0a2540] hover:bg-[#0f345a] active:bg-[#05182b] text-white font-semibold text-sm px-5 py-3 rounded-full transition-all duration-200 shadow-xl hover:shadow-2xl border border-slate-700/40">
+            <!-- PDF Icon -->
+            <svg class="w-4 h-4 fill-current text-white" viewBox="0 0 20 20">
+                <path d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"/>
+            </svg>
+            <span>Download PDF</span>
+        </button>
+    </div>
+
+    <!-- Main Printable Content Frame -->
+    <div id="case-study-content" class="page-card space-y-6">
+
+        <!-- Case Study Header -->
+        <header class="space-y-2 border-b border-slate-200 pb-4">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0f2a4a] tracking-tight leading-snug">
+                        E-Commerce Performance Dynamics
+                    </h1>
+                    <p class="text-sm sm:text-base font-bold text-blue-600 tracking-wide uppercase mt-1">
+                        A Modular Optimization Case Study
+                    </p>
+                </div>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 code-font">
+                    WOOCOMMERCE / INFRASTRUCTURE
+                </span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600 italic">
+                Sub-Second Latency &amp; Architectural Hardening for Resource-Constrained Environments
+            </p>
+        </header>
+
+        <!-- Top Metrics Summary Grid -->
+        <section class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+                <div class="text-xl sm:text-2xl font-black text-emerald-600 tracking-tight">
+                    +47%
+                </div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mt-1">
+                    Checkout Speed
+                </div>
+                <div class="text-[9px] text-slate-500 code-font mt-0.5">TTFB 5.64s &rarr; 2.97s</div>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+                <div class="text-xl sm:text-2xl font-black text-emerald-600 tracking-tight">
+                    +42%
+                </div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mt-1">
+                    Cart Responsiveness
+                </div>
+                <div class="text-[9px] text-slate-500 code-font mt-0.5">TTFB 3.74s &rarr; 2.16s</div>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+                <div class="text-xl sm:text-2xl font-black text-blue-600 tracking-tight">
+                    -91%
+                </div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mt-1">
+                    Storage Footprint
+                </div>
+                <div class="text-[9px] text-slate-500 code-font mt-0.5">38.3 GB &rarr; 3.3 GB</div>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+                <div class="text-xl sm:text-2xl font-black text-indigo-600 tracking-tight">
+                    -95%
+                </div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mt-1">
+                    404 Error Scans
+                </div>
+                <div class="text-[9px] text-slate-500 code-font mt-0.5">&gt;2,000 &rarr; &lt;100/day</div>
+            </div>
+        </section>
+
+        <!-- Section 1: The Engineering Challenge -->
+        <section class="space-y-2">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">
+                1. The Engineering Challenge
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                An active e-commerce retailer on a shared hosting architecture experienced severe transactional drop-offs. Dynamic, un-cacheable user endpoints (Cart &amp; Checkout) were plagued by latency spikes, while massive database option bloat degraded backend execution queues.
+            </p>
+            <div class="bg-slate-50 border-l-4 border-blue-600 p-3 text-xs text-slate-700 leading-relaxed rounded-r">
+                <strong>Shared Infrastructure Bottlenecks:</strong> Server-level configurations (PHP execution limits, custom server Caching, OPcache tuning) could not be modified directly. Optimizing performance required an additive execution model: forcing every requested page to execute fewer operations, load lean dependencies, and prioritize Critical Rendering Path (CRP) visual assets.
+            </div>
+        </section>
+
+        <!-- Section 2: The Modular Optimization Strategy -->
+        <section class="space-y-3">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">
+                2. The Modular Optimization Strategy
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                The architecture shifted from a monolithic execution paradigm to a conditional, time-of-use script execution strategy, drastically reducing unnecessary operations on dynamic routes.
+            </p>
+
+            <div class="overflow-x-auto rounded-lg border border-slate-200">
+                <table class="w-full custom-table text-left border-collapse">
+                    <thead>
+                        <tr>
+                            <th class="w-1/3">Architectural Area</th>
+                            <th class="w-1/3">Legacy Monolithic Approach</th>
+                            <th class="w-1/3">Optimized Execution Model</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="font-semibold text-slate-900">Script Execution</td>
+                            <td>Loaded all marketing pixels, page-builders, and plugin assets site-wide.</td>
+                            <td><strong class="text-emerald-700">Conditional MU-Plugins:</strong> Unloads non-essential modules on Cart &amp; Checkout.</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-slate-900">Media &amp; CRP Asset Flow</td>
+                            <td>Uncompressed assets without width constraints or explicit LCP preloading.</td>
+                            <td><strong class="text-emerald-700">Photo-First Preload:</strong> WebP format conversion + above-the-fold resource priorities.</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-slate-900">Database &amp; Storage</td>
+                            <td>12.48 MB auto-loaded options; 38.3 GB disk footprint with legacy tables.</td>
+                            <td><strong class="text-emerald-700">Pruned HPOS Schema:</strong> Reduced auto-loaded payload to 0.46 MB and disk footprint to 3.3 GB.</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-slate-900">Security &amp; Bot Guard</td>
+                            <td>Exposed login endpoints causing &gt;2,000 daily automated 404 URL scans.</td>
+                            <td><strong class="text-emerald-700">Multi-Layer Guard:</strong> Integrated Cloudflare Turnstile &amp; rate limiting to mitigate bot spikes.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 3: Validation & Impact Analysis -->
+        <section class="space-y-3">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">
+                3. Validation &amp; Performance Impact Analysis
+            </h2>
+            <p class="text-xs text-slate-600 italic">
+                Performance outcomes were validated across repeated baseline and post-optimization benchmark runs under identical hosting parameters.
+            </p>
+
+            <!-- Table A: Performance Metrics -->
+            <div class="overflow-x-auto rounded-lg border border-slate-200">
+                <table class="w-full custom-table text-left border-collapse">
+                    <thead>
+                        <tr>
+                            <th>Performance Metric</th>
+                            <th>Legacy Baseline</th>
+                            <th>Optimized State</th>
+                            <th class="text-right">Net Improvement</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="font-semibold text-slate-900">Cart Page Latency (TTFB)</td>
+                            <td class="code-font text-slate-600">3.74 s</td>
+                            <td class="code-font font-bold text-slate-900">2.16 s</td>
+                            <td class="text-right font-bold text-emerald-600">+42.2% Faster</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-slate-900">Checkout Page Latency (TTFB)</td>
+                            <td class="code-font text-slate-600">5.64 s</td>
+                            <td class="code-font font-bold text-slate-900">2.97 s</td>
+                            <td class="text-right font-bold text-emerald-600">+47.3% Faster</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-slate-900">Mobile PageSpeed Score</td>
+                            <td class="code-font text-slate-600">43 - 55</td>
+                            <td class="code-font font-bold text-slate-900">81 / 100</td>
+                            <td class="text-right font-bold text-emerald-600">+62.0% Higher</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-slate-900">Mobile LCP (Main Image)</td>
+                            <td class="code-font text-slate-600">4.88 s</td>
+                            <td class="code-font font-bold text-slate-900">3.90 s</td>
+                            <td class="text-right font-bold text-emerald-600">-20.1% Faster</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-slate-900">Autoloaded DB Payload</td>
+                            <td class="code-font text-slate-600">12.48 MB</td>
+                            <td class="code-font font-bold text-slate-900">0.46 MB</td>
+                            <td class="text-right font-bold text-emerald-600">-96.3% Reduction</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Strategic Value Box -->
+            <div class="strategic-card space-y-2 mt-2">
+                <div class="flex items-center space-x-2 text-[#0f2a4a] font-bold text-sm">
+                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                    <span>Strategic Business Value</span>
+                </div>
+                <ul class="text-xs text-slate-700 space-y-1.5 list-disc pl-5">
+                    <li>
+                        <strong>Conversion Preservation:</strong> Reduced cart-to-checkout TTFB by nearly half, directly eliminating drop-offs caused by blank screen delays on mobile devices.
+                    </li>
+                    <li>
+                        <strong>Operational Economy:</strong> Reclaimed over 35 GB of server storage and eliminated database locks without requiring expensive dedicated server upgrades.
+                    </li>
+                    <li>
+                        <strong>System Hardening:</strong> Mitigated automated bot vulnerability spikes by instituting 5-layer registration guards without compromising checkout conversion.
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Case Study Footer -->
+        <footer class="pt-3 border-t border-slate-200 text-[10px] text-slate-500 flex justify-between items-center">
+            <span>E-Commerce Infrastructure Optimization Report</span>
+            <span class="code-font">Page 1 of 1</span>
+        </footer>
+
+    </div>
+
+    <!-- PDF Generation Script -->
+    <script>
+        function generatePDF() {
+            const btn = document.getElementById('download-pdf-btn');
+            const element = document.getElementById('case-study-content');
+
+            // Set Loading state on button
+            const originalHTML = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `
+                <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Generating PDF...</span>
+            `;
+
+            if (typeof html2pdf !== 'undefined') {
+                const opt = {
+                    margin:       [8, 8, 8, 8], // mm
+                    filename:     'E_Commerce_Performance_Case_Study.pdf',
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2, useCORS: true, logging: false },
+                    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+
+                html2pdf().set(opt).from(element).save().then(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalHTML;
+                }).catch(err => {
+                    console.error('PDF export error:', err);
+                    btn.disabled = false;
+                    btn.innerHTML = originalHTML;
+                    window.print();
+                });
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
+                window.print();
+            }
+        }
+    </script>
+</body>
+</html>

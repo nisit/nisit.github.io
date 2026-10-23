@@ -1308,3 +1308,202 @@ footer p {
 	opacity: 1;
 	transform: translateY(0);
 }
+/* ---------- Performance Engineering Section ---------- */
+.perf-highlights {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 1.25rem;
+	margin-bottom: 3rem;
+}
+
+.perf-stat {
+	background: var(--secondary);
+	border: 1px solid var(--border);
+	border-radius: 1rem;
+	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+}
+
+.perf-stat-value {
+	font-size: 2rem;
+	font-weight: 700;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+}
+
+.perf-stat-label {
+	font-weight: 600;
+	color: var(--text);
+}
+
+.perf-stat-detail {
+	font-size: 0.8rem;
+	color: var(--text-muted);
+}
+
+.perf-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+	gap: 2.5rem;
+	align-items: stretch;
+}
+
+.perf-card {
+	background: var(--secondary);
+	border: 1px solid var(--border);
+	border-radius: 1rem;
+	padding: 2.5rem;
+	display: flex;
+	flex-direction: column;
+	transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.perf-card:hover {
+	border-color: var(--accent-dark);
+	box-shadow: 0 15px 30px rgba(0, 230, 118, 0.12);
+}
+
+.perf-category {
+	font-size: 0.8rem;
+	color: var(--accent);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	margin-bottom: 0.75rem;
+}
+
+.perf-card h3 {
+	font-size: 1.5rem;
+	font-weight: 600;
+	margin-bottom: 1rem;
+	line-height: 1.3;
+}
+
+.perf-card > p {
+	color: var(--text-muted);
+	line-height: 1.7;
+	margin-bottom: 1.75rem;
+}
+
+.perf-legend {
+	display: flex;
+	gap: 1.25rem;
+	font-size: 0.75rem;
+	color: var(--text-muted);
+	margin-bottom: 1rem;
+}
+
+.perf-legend span {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+}
+
+.perf-legend .dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 2px;
+	display: inline-block;
+}
+
+.perf-legend .dot.before,
+.perf-bar-before { background: #5a5a66; }
+
+.perf-legend .dot.after,
+.perf-bar-after { background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end)); }
+
+.perf-metrics {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+	margin-bottom: 1.75rem;
+}
+
+.perf-metric-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	font-size: 0.95rem;
+	font-weight: 500;
+	margin-bottom: 0.5rem;
+}
+
+.perf-metric-change {
+	color: var(--accent);
+	font-size: 0.85rem;
+	font-weight: 600;
+}
+
+.perf-bar-row {
+	display: grid;
+	grid-template-columns: 1fr 6.5rem;
+	align-items: center;
+	gap: 0.75rem;
+	margin-bottom: 0.3rem;
+}
+
+.perf-bar-track {
+	height: 10px;
+	background: var(--tertiary);
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.perf-bar {
+	height: 100%;
+	width: 0;
+	border-radius: 5px;
+	transition: width 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.perf-bar-value {
+	font-size: 0.8rem;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.perf-bar-value.before { color: var(--text-muted); }
+.perf-bar-value.after { color: var(--accent); font-weight: 600; }
+
+.perf-outcomes {
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-bottom: 1.5rem;
+}
+
+.perf-outcomes li {
+	font-size: 0.85rem;
+	padding: 0.35rem 0.8rem;
+	border-radius: 0.5rem;
+	background: rgba(0, 255, 136, 0.08);
+	border: 1px solid rgba(0, 255, 136, 0.25);
+	color: var(--text);
+}
+
+.perf-card .project-tags {
+	padding: 0;
+}
+
+.perf-card .project-link {
+	margin-top: auto;
+	padding-left: 0;
+}
+
+@media (max-width: 768px) {
+	.perf-card {
+		padding: 1.75rem 1.25rem;
+	}
+	.perf-stat-value {
+		font-size: 1.6rem;
+	}
+	.perf-bar-row {
+		grid-template-columns: 1fr 5.5rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.perf-bar { transition: none; }
+}
