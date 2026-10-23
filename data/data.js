@@ -142,6 +142,28 @@ const portfolioData = {
             }
         },
         {
+            title: "Custom Background Removal for Print",
+            description: "Designed a custom background-removal algorithm for a production DTF print pipeline. It runs in under a second instead of 8, handles 100+ MP files instead of 24 MP, and keeps detail as fine as 2px filaments on print-safe transparency.",
+            tags: ["Python", "OpenCV", "NumPy", "Computer Vision"],
+            link: {
+                url: "./image_pipeline_optimization_case_study.html",
+                text: "View Case Study",
+                type: "internal",
+                target: null
+            }
+        },
+        {
+            title: "AI Image Upscaling with Real-HAT-Sharper",
+            description: "Replaced a paid upscaling API with self-hosted Real-HAT-Sharper super-resolution. It runs as a secured FastAPI service on serverless GPUs, produces crisp, print-ready output, and was integrated with zero production code changes.",
+            tags: ["PyTorch", "FastAPI", "Modal GPU", "Super-Resolution"],
+            link: {
+                url: "./ai_image_upscaling_case_study.html",
+                text: "View Case Study",
+                type: "internal",
+                target: null
+            }
+        },
+        {
             title: "Smoobu Sync & Single Page Checkout",
             description: "Developed a sophisticated booking system with real-time synchronization with Smoobu API, custom single-page checkout experience, and seamless integration with existing WooCommerce infrastructure for a luxury accommodation booking platform.",
             tags: ["WordPress", "WooCommerce", "API Integration", "Custom Checkout"],
@@ -205,7 +227,7 @@ const portfolioData = {
         highlights: [
             { value: "-47%", label: "Checkout TTFB", detail: "5.64s → 2.97s" },
             { value: "-91%", label: "Storage Footprint", detail: "38.3 GB → 3.3 GB" },
-            { value: "8s → <1s", label: "Background Removal", detail: "grabCut → guided filter" },
+            { value: "8s → <1s", label: "Background Removal", detail: "fine edges preserved" },
             { value: "4×", label: "Resolution Ceiling", detail: "24 MP → 100+ MP" }
         ],
         caseStudies: [
@@ -230,8 +252,8 @@ const portfolioData = {
             },
             {
                 category: "Python • Computer Vision",
-                title: "High-Resolution Image Pipeline Optimization",
-                description: "Profiled a production DTF print pipeline and found the heaviest stage was redundant. Replaced full-frame cv2.grabCut with a guided filter, moved conversions to pyVips with parallel stages, and exposed the pipeline as a FastAPI service.",
+                title: "Custom Background Removal Pipeline",
+                description: "Profiled a production DTF print pipeline end to end and rebuilt its slowest stages. The result is sub-second background removal, 4× larger inputs, and no loss of fine-edge quality.",
                 metrics: [
                     { label: "Image normalization", before: 12, after: 3, unit: "s" },
                     { label: "Background removal", before: 8, after: 0.6, unit: "s", afterLabel: "sub-second", changeLabel: ">87%" }
@@ -240,6 +262,23 @@ const portfolioData = {
                 tags: ["Python", "FastAPI", "OpenCV", "pyVips", "NumPy"],
                 link: {
                     url: "./image_pipeline_optimization_case_study.html",
+                    text: "View Case Study",
+                    type: "internal",
+                    target: null
+                }
+            },
+            {
+                category: "GPU • Serverless Inference",
+                title: "AI Upscaling Service",
+                description: "Runs Real-HAT-Sharper super-resolution as a production GPU service. Profiling every stage cut post-processing about 7× and eliminated dispatch timeouts, without giving up print quality.",
+                metrics: [
+                    { label: "Post-processing (18.5 MP)", before: 1.94, after: 0.29, unit: "s" },
+                    { label: "Data transfer overhead", before: 1452, after: 187, unit: "ms" }
+                ],
+                outcomes: ["Zero prod code changes", "Timeouts eliminated", "Print-ready edges"],
+                tags: ["PyTorch", "Real-HAT-Sharper", "FastAPI", "Modal"],
+                link: {
+                    url: "./ai_image_upscaling_case_study.html",
                     text: "View Case Study",
                     type: "internal",
                     target: null
@@ -389,6 +428,7 @@ const portfolioData = {
             "WooCommerce",
             "PyTorch",
             "OpenCV",
+            "Modal GPU",
             "AWS",
             "Docker"
         ],
@@ -437,6 +477,7 @@ const portfolioData = {
                     "OpenCV",
                     "pyVips",
                     "Computer Vision",
+                    "Super-Resolution (Real-HAT)",
                     "Data Analysis"
                 ]
             },
@@ -451,6 +492,7 @@ const portfolioData = {
                     "Apache",
                     "CI/CD",
                     "DevOps",
+                    "Modal (Serverless GPU)",
                     "Performance Profiling"
                 ]
             }

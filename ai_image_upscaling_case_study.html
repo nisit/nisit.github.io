@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Upscaling for Print: A Real-HAT-Sharper Case Study</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        @page { size: A4 portrait; margin: 0; }
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f8fafc; color: #1e293b; margin: 0; padding: 32px 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+        .page-card {
+            max-width: 840px; margin: 0 auto; background-color: #ffffff;
+            box-shadow: 0 4px 20px -2px rgba(0,0,0,0.08), 0 2px 6px -1px rgba(0,0,0,0.04);
+            border: 1px solid #e2e8f0; border-radius: 8px; padding: 32px 36px;
+        }
+        .fixed-btn-bottom-right { position: fixed; bottom: 24px; right: 24px; z-index: 9999; }
+        .custom-table th { background-color: #0f2a4a; color: #fff; font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 0.04em; padding: 10px 14px; }
+        .custom-table td { padding: 10px 14px; font-size: 12px; border-bottom: 1px solid #f1f5f9; }
+        .custom-table tr:nth-child(even) td { background-color: #f8fafc; }
+        .strategic-card { background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; }
+        .cap-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px; background: #f8fafc; }
+        .cap-card h3 { font-size: 13px; font-weight: 700; color: #0f2a4a; margin: 0 0 4px; }
+        .cap-card p { font-size: 12px; color: #475569; line-height: 1.55; margin: 0; }
+        .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 3px 9px; border-radius: 999px; background: #eff6ff; color: #1d4ed8; border: 1px solid #dbeafe; margin: 0 4px 6px 0; }
+        @media (max-width: 640px) { .page-card { padding: 24px 18px; } }
+        @media print {
+            body { background: none !important; padding: 0 !important; margin: 0 !important; }
+            .no-print { display: none !important; }
+            .page-card { box-shadow: none !important; border: none !important; max-width: 100% !important; width: 100% !important; padding: 20px 24px !important; border-radius: 0 !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print fixed-btn-bottom-right">
+        <button id="download-pdf-btn" onclick="generatePDF()" class="flex items-center space-x-2.5 bg-[#0a2540] hover:bg-[#0f345a] active:bg-[#05182b] text-white font-semibold text-sm px-5 py-3 rounded-full transition-all duration-200 shadow-xl hover:shadow-2xl border border-slate-700/40">
+            <svg class="w-4 h-4 fill-current text-white" viewBox="0 0 20 20"><path d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"/></svg>
+            <span>Download PDF</span>
+        </button>
+    </div>
+
+    <div id="case-study-content" class="page-card space-y-6">
+
+        <header class="space-y-2 border-b border-slate-200 pb-4">
+            <div class="flex justify-between items-start gap-4">
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0f2a4a] tracking-tight leading-snug">AI Image Upscaling for Print</h1>
+                    <p class="text-sm sm:text-base font-bold text-blue-600 tracking-wide uppercase mt-1">Real-HAT-Sharper Super-Resolution in Production</p>
+                </div>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 code-font whitespace-nowrap">AI / COMPUTER VISION</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600 italic">Replacing a paid upscaling API with a self-hosted transformer model, tuned for print-ready output</p>
+        </header>
+
+        <section class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+                <div class="text-xl sm:text-2xl font-black text-emerald-600 tracking-tight">4&times;</div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mt-1">Super-Resolution</div>
+                <div class="text-[9px] text-slate-500 code-font mt-0.5">to target print DPI</div>
+            </div>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+                <div class="text-xl sm:text-2xl font-black text-emerald-600 tracking-tight">~7&times;</div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mt-1">Faster Post-Processing</div>
+                <div class="text-[9px] text-slate-500 code-font mt-0.5">same output quality</div>
+            </div>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+                <div class="text-xl sm:text-2xl font-black text-blue-600 tracking-tight">100%</div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mt-1">Print-Ready Edges</div>
+                <div class="text-[9px] text-slate-500 code-font mt-0.5">no halos, no haze</div>
+            </div>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+                <div class="text-xl sm:text-2xl font-black text-indigo-600 tracking-tight">0</div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mt-1">Prod Code Changes</div>
+                <div class="text-[9px] text-slate-500 code-font mt-0.5">drop-in integration</div>
+            </div>
+        </section>
+
+        <section class="space-y-2">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">1. The Challenge</h2>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                A Direct-to-Film (DTF) print business paid a third-party API to upscale customer artwork to print resolution. Off-the-shelf upscalers are built for photos. On logos and lettering they blur thin strokes, invent detail and leave visible fringes around the design, and on printed film those flaws show. The business wanted better print quality, lower cost per image, and control over the technology.
+            </p>
+        </section>
+
+        <section class="space-y-3">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">2. How I Approached It</h2>
+            <div class="grid sm:grid-cols-2 gap-3">
+                <div class="cap-card">
+                    <h3>The right model for print</h3>
+                    <p>Deployed Real-HAT-Sharper, a transformer-based super-resolution model whose sharp edge reconstruction suits lettering, logos and linework, the content that generic upscalers handle worst.</p>
+                </div>
+                <div class="cap-card">
+                    <h3>Print-aware engineering</h3>
+                    <p>Designed proprietary post-processing tuned to how DTF film actually prints, so output arrives print-ready with no manual clean-up.</p>
+                </div>
+                <div class="cap-card">
+                    <h3>Production-grade service</h3>
+                    <p>Packaged the work as a secured, API-first service on serverless GPUs. It scales to zero when idle, warms on demand, and plugs into the existing production system without code changes.</p>
+                </div>
+                <div class="cap-card">
+                    <h3>Measured optimization</h3>
+                    <p>Profiled every stage, validated each change on real production artwork, and calibrated GPU settings for speed without giving up output accuracy.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-2">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">3. Toolkit</h2>
+            <div class="text-xs text-slate-700 space-y-2">
+                <div><span class="font-semibold text-slate-900 mr-2">Model:</span><span class="chip">Real-HAT-Sharper (4&times;)</span></div>
+                <div><span class="font-semibold text-slate-900 mr-2">Deep learning:</span><span class="chip">PyTorch</span><span class="chip">Spandrel</span><span class="chip">Hugging Face</span></div>
+                <div><span class="font-semibold text-slate-900 mr-2">Image processing:</span><span class="chip">OpenCV</span><span class="chip">NumPy</span><span class="chip">Pillow</span><span class="chip">pyVips</span></div>
+                <div><span class="font-semibold text-slate-900 mr-2">Service &amp; infra:</span><span class="chip">FastAPI</span><span class="chip">Modal (serverless GPU)</span><span class="chip">REST + Webhooks</span></div>
+            </div>
+        </section>
+
+        <section class="space-y-3">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">4. Outcomes</h2>
+            <div class="overflow-x-auto rounded-lg border border-slate-200">
+                <table class="w-full custom-table text-left border-collapse">
+                    <thead><tr><th>Area</th><th>Before</th><th>After</th></tr></thead>
+                    <tbody>
+                        <tr><td class="font-semibold text-slate-900">Upscaling provider</td><td class="text-slate-600">Paid third-party API</td><td class="font-semibold text-emerald-700">Self-hosted Real-HAT-Sharper</td></tr>
+                        <tr><td class="font-semibold text-slate-900">Text &amp; linework quality</td><td class="text-slate-600">Softened strokes, fringing</td><td class="font-semibold text-emerald-700">Crisp edges, print-ready output</td></tr>
+                        <tr><td class="font-semibold text-slate-900">Post-processing time</td><td class="code-font text-slate-600">1.94 s</td><td class="code-font font-bold text-emerald-700">0.29 s</td></tr>
+                        <tr><td class="font-semibold text-slate-900">Dispatch timeouts</td><td class="text-slate-600">Recurring on large files</td><td class="font-semibold text-emerald-700">Eliminated</td></tr>
+                        <tr><td class="font-semibold text-slate-900">Infrastructure cost</td><td class="text-slate-600">Per-image fees</td><td class="font-semibold text-emerald-700">Pay-per-use GPU, scales to zero</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="strategic-card space-y-2">
+                <div class="flex items-center space-x-2 text-[#0f2a4a] font-bold text-sm">
+                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    <span>Strategic Business Value</span>
+                </div>
+                <ul class="text-xs text-slate-700 space-y-1.5 list-disc pl-5">
+                    <li><strong>Vendor independence:</strong> A core production capability now runs on technology the business owns.</li>
+                    <li><strong>Better product:</strong> Customers' artwork prints sharper, with no manual clean-up.</li>
+                    <li><strong>Lower cost:</strong> No per-image fees and no GPU cost while idle.</li>
+                    <li><strong>Low-risk rollout:</strong> Switching to the new service, or back, is a configuration change.</li>
+                </ul>
+            </div>
+
+            <div class="bg-slate-50 border-l-4 border-emerald-500 p-3 text-xs text-slate-700 leading-relaxed rounded-r">
+                <strong>Note:</strong> Implementation details are proprietary to the client. I'm happy to discuss the approach in more depth under NDA.
+            </div>
+        </section>
+
+        <footer class="pt-3 border-t border-slate-200 text-[10px] text-slate-500 flex justify-between items-center">
+            <span>AI Image Upscaling Case Study</span>
+            <span class="code-font">Python &middot; PyTorch &middot; FastAPI</span>
+        </footer>
+    </div>
+
+    <script>
+        function generatePDF() {
+            const btn = document.getElementById('download-pdf-btn');
+            const element = document.getElementById('case-study-content');
+            const originalHTML = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span>Generating PDF...</span>';
+            const restore = () => { btn.disabled = false; btn.innerHTML = originalHTML; };
+            if (typeof html2pdf !== 'undefined') {
+                html2pdf().set({
+                    margin: [8, 8, 8, 8],
+                    filename: 'AI_Image_Upscaling_Case_Study.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, useCORS: true, logging: false },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                    pagebreak: { mode: ['css', 'legacy'], avoid: ['tr', '.cap-card'] }
+                }).from(element).save().then(restore).catch(err => { console.error(err); restore(); window.print(); });
+            } else { restore(); window.print(); }
+        }
+    </script>
+</body>
+</html>

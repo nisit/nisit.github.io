@@ -3,144 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>High-Resolution Image Pipeline: A Profiling-Driven Optimization Case Study</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Custom Background Removal for Print: An Image Pipeline Case Study</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- html2pdf.js CDN for PDF export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
-
         @page { size: A4 portrait; margin: 0; }
-
         *, *::before, *::after { box-sizing: border-box; }
-
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
-            margin: 0;
-            padding: 32px 16px;
+            background-color: #f8fafc; color: #1e293b; margin: 0; padding: 32px 16px;
             -webkit-font-smoothing: antialiased;
         }
-
         .code-font { font-family: 'JetBrains Mono', monospace; }
-
         .page-card {
-            max-width: 840px;
-            min-height: 1100px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 32px 36px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            max-width: 840px; margin: 0 auto; background-color: #ffffff;
+            box-shadow: 0 4px 20px -2px rgba(0,0,0,0.08), 0 2px 6px -1px rgba(0,0,0,0.04);
+            border: 1px solid #e2e8f0; border-radius: 8px; padding: 32px 36px;
         }
-
         .fixed-btn-bottom-right { position: fixed; bottom: 24px; right: 24px; z-index: 9999; }
-
-        .custom-table th {
-            background-color: #0f2a4a;
-            color: #ffffff;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 0.04em;
-            padding: 10px 14px;
-        }
+        .custom-table th { background-color: #0f2a4a; color: #fff; font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 0.04em; padding: 10px 14px; }
         .custom-table td { padding: 10px 14px; font-size: 12px; border-bottom: 1px solid #f1f5f9; }
         .custom-table tr:nth-child(even) td { background-color: #f8fafc; }
-
-        .strategic-card {
-            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 16px 20px;
-        }
-
-        /* Pipeline flow */
-        .flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 6px; }
-        .flow-step {
-            flex: 1 1 120px;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            padding: 8px 10px;
-            background: #f8fafc;
-        }
-        .flow-step.hot { border-color: #10b981; background: #ecfdf5; }
-        .flow-arrow { align-self: center; color: #94a3b8; font-weight: 700; }
-
-        /* Before/after timing bars */
+        .strategic-card { background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; }
+        .cap-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px; background: #f8fafc; }
+        .cap-card h3 { font-size: 13px; font-weight: 700; color: #0f2a4a; margin: 0 0 4px; }
+        .cap-card p { font-size: 12px; color: #475569; line-height: 1.55; margin: 0; }
+        .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 3px 9px; border-radius: 999px; background: #eff6ff; color: #1d4ed8; border: 1px solid #dbeafe; margin: 0 4px 6px 0; }
         .bar-track { background: #f1f5f9; border-radius: 4px; height: 14px; overflow: hidden; }
         .bar { height: 100%; border-radius: 4px; }
-
-        @media (max-width: 640px) {
-            .flow-arrow { display: none; }
-            .page-card { padding: 24px 18px; }
-        }
-
+        @media (max-width: 640px) { .page-card { padding: 24px 18px; } }
         @media print {
             body { background: none !important; padding: 0 !important; margin: 0 !important; }
             .no-print { display: none !important; }
-            .page-card {
-                box-shadow: none !important;
-                border: none !important;
-                max-width: 100% !important;
-                width: 100% !important;
-                padding: 20px 24px !important;
-                border-radius: 0 !important;
-            }
+            .page-card { box-shadow: none !important; border: none !important; max-width: 100% !important; width: 100% !important; padding: 20px 24px !important; border-radius: 0 !important; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Floating Download Button -->
     <div class="no-print fixed-btn-bottom-right">
         <button id="download-pdf-btn" onclick="generatePDF()" class="flex items-center space-x-2.5 bg-[#0a2540] hover:bg-[#0f345a] active:bg-[#05182b] text-white font-semibold text-sm px-5 py-3 rounded-full transition-all duration-200 shadow-xl hover:shadow-2xl border border-slate-700/40">
-            <svg class="w-4 h-4 fill-current text-white" viewBox="0 0 20 20">
-                <path d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"/>
-            </svg>
+            <svg class="w-4 h-4 fill-current text-white" viewBox="0 0 20 20"><path d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"/></svg>
             <span>Download PDF</span>
         </button>
     </div>
 
     <div id="case-study-content" class="page-card space-y-6">
 
-        <!-- Header -->
         <header class="space-y-2 border-b border-slate-200 pb-4">
             <div class="flex justify-between items-start gap-4">
                 <div>
-                    <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0f2a4a] tracking-tight leading-snug">
-                        High-Resolution Image Pipeline
-                    </h1>
-                    <p class="text-sm sm:text-base font-bold text-blue-600 tracking-wide uppercase mt-1">
-                        A Profiling-Driven Optimization Case Study
-                    </p>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-[#0f2a4a] tracking-tight leading-snug">Custom Background Removal for Print</h1>
+                    <p class="text-sm sm:text-base font-bold text-blue-600 tracking-wide uppercase mt-1">A Profiling-Driven Image Pipeline Case Study</p>
                 </div>
-                <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 code-font whitespace-nowrap">
-                    PYTHON / FASTAPI / OPENCV
-                </span>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 code-font whitespace-nowrap">COMPUTER VISION</span>
             </div>
-            <p class="text-xs sm:text-sm text-slate-600 italic">
-                Sub-Second Background Removal &amp; a 4&times; Resolution Ceiling for a Production DTF Print Pipeline
-            </p>
+            <p class="text-xs sm:text-sm text-slate-600 italic">Sub-second background removal and a 4&times; higher resolution ceiling for a production DTF print pipeline</p>
         </header>
 
-        <!-- Metrics -->
         <section class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
+                <div class="text-xl sm:text-2xl font-black text-emerald-600 tracking-tight">&lt;1 s</div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mt-1">Background Removal</div>
+                <div class="text-[9px] text-slate-500 code-font mt-0.5">down from 8 s</div>
+            </div>
             <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
                 <div class="text-xl sm:text-2xl font-black text-emerald-600 tracking-tight">-75%</div>
                 <div class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mt-1">Normalization Time</div>
                 <div class="text-[9px] text-slate-500 code-font mt-0.5">12 s &rarr; 3 s</div>
-            </div>
-            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
-                <div class="text-xl sm:text-2xl font-black text-emerald-600 tracking-tight">&lt;1 s</div>
-                <div class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mt-1">Background Removal</div>
-                <div class="text-[9px] text-slate-500 code-font mt-0.5">8 s &rarr; sub-second</div>
             </div>
             <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
                 <div class="text-xl sm:text-2xl font-black text-blue-600 tracking-tight">4&times;</div>
@@ -149,44 +80,49 @@
             </div>
             <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-center">
                 <div class="text-xl sm:text-2xl font-black text-indigo-600 tracking-tight">2 px</div>
-                <div class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mt-1">Edge Detail Kept</div>
-                <div class="text-[9px] text-slate-500 code-font mt-0.5">print-safe alpha</div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mt-1">Fine Detail Kept</div>
+                <div class="text-[9px] text-slate-500 code-font mt-0.5">print-safe transparency</div>
             </div>
         </section>
 
-        <!-- 1. Challenge -->
         <section class="space-y-2">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">1. The Engineering Challenge</h2>
+            <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">1. The Challenge</h2>
             <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
-                A production Direct-to-Film (DTF) print pipeline prepares customer artwork for printing: every upload is normalized and its flat background removed before it reaches production. Processing had become the bottleneck. Normalization took around 12 seconds per image, background removal another 8, and large print files had to be capped at 24&nbsp;MP to keep processing time and memory in bounds.
+                A production Direct-to-Film (DTF) print pipeline removes the background from every customer upload before printing. Processing had become the bottleneck: each image took tens of seconds, and large files had to be capped at 24&nbsp;MP. Print quality could not be traded for speed, because thin strokes, fine filaments and soft edges all have to survive onto transparency cleanly.
             </p>
-            <div class="bg-slate-50 border-l-4 border-blue-600 p-3 text-xs text-slate-700 leading-relaxed rounded-r">
-                <strong>Constraint:</strong> Print output cannot trade quality for speed. Fine detail such as thin strokes, hair-like filaments and anti-aliased edges must survive onto transparency with a clean alpha channel. Halos or fringing show up on the physical transfer.
-            </div>
         </section>
 
-        <!-- 2. Diagnosis -->
         <section class="space-y-3">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">2. Diagnosis: Find Where the Time Goes</h2>
-            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
-                Rather than reaching for faster hardware, each stage was micro-profiled end to end. The key finding was that the most expensive stage, a full-frame <span class="code-font text-[11px]">cv2.grabCut</span> segmentation, was <strong>re-solving a problem upstream steps had already answered</strong>. By the time it ran, the subject edges were already resolved; grabCut was only being used for refinement.
-            </p>
+            <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">2. How I Approached It</h2>
+            <div class="grid sm:grid-cols-2 gap-3">
+                <div class="cap-card">
+                    <h3>Profile before optimizing</h3>
+                    <p>Measured every stage end to end to find where the time was actually going, instead of guessing or buying bigger servers.</p>
+                </div>
+                <div class="cap-card">
+                    <h3>Purpose-built algorithm</h3>
+                    <p>Designed a custom background-removal algorithm for print artwork instead of relying on a general-purpose segmentation tool.</p>
+                </div>
+                <div class="cap-card">
+                    <h3>Built for very large images</h3>
+                    <p>Re-engineered the data path for multi-core, memory-efficient processing, so 100+ MP files run as smoothly as small ones.</p>
+                </div>
+                <div class="cap-card">
+                    <h3>Quality as a hard constraint</h3>
+                    <p>Validated every speed-up against fine-detail test artwork, so no gain in speed cost anything in print quality.</p>
+                </div>
+            </div>
 
-            <!-- Timing bars -->
             <div class="border border-slate-200 rounded-lg p-4 space-y-4">
                 <div>
-                    <div class="flex justify-between text-xs font-semibold text-slate-800 mb-1">
-                        <span>Image normalization</span><span class="code-font text-slate-500 font-normal">before / after</span>
-                    </div>
+                    <div class="flex justify-between text-xs font-semibold text-slate-800 mb-1"><span>Image normalization</span><span class="code-font text-slate-500 font-normal">before / after</span></div>
                     <div class="space-y-1">
                         <div class="flex items-center gap-2"><div class="bar-track flex-1"><div class="bar bg-rose-400" style="width:100%"></div></div><span class="code-font text-[11px] w-16 text-rose-600 font-semibold">12 s</span></div>
                         <div class="flex items-center gap-2"><div class="bar-track flex-1"><div class="bar bg-emerald-500" style="width:25%"></div></div><span class="code-font text-[11px] w-16 text-emerald-700 font-semibold">3 s</span></div>
                     </div>
                 </div>
                 <div>
-                    <div class="flex justify-between text-xs font-semibold text-slate-800 mb-1">
-                        <span>Background removal</span><span class="code-font text-slate-500 font-normal">before / after</span>
-                    </div>
+                    <div class="flex justify-between text-xs font-semibold text-slate-800 mb-1"><span>Background removal</span><span class="code-font text-slate-500 font-normal">before / after</span></div>
                     <div class="space-y-1">
                         <div class="flex items-center gap-2"><div class="bar-track flex-1"><div class="bar bg-rose-400" style="width:66.7%"></div></div><span class="code-font text-[11px] w-16 text-rose-600 font-semibold">8 s</span></div>
                         <div class="flex items-center gap-2"><div class="bar-track flex-1"><div class="bar bg-emerald-500" style="width:6%"></div></div><span class="code-font text-[11px] w-16 text-emerald-700 font-semibold">&lt;1 s</span></div>
@@ -196,129 +132,49 @@
             </div>
         </section>
 
-        <!-- 3. Re-engineering -->
-        <section class="space-y-3">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">3. The Re-Engineering</h2>
-
-            <div class="overflow-x-auto rounded-lg border border-slate-200">
-                <table class="w-full custom-table text-left border-collapse">
-                    <thead>
-                        <tr>
-                            <th class="w-1/4">Pipeline Area</th>
-                            <th class="w-[37.5%]">Legacy Approach</th>
-                            <th class="w-[37.5%]">Optimized Approach</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-200">
-                        <tr>
-                            <td class="font-semibold text-slate-900">Background Removal</td>
-                            <td>Full-frame <span class="code-font">cv2.grabCut</span> iterative graph-cut segmentation on every pixel.</td>
-                            <td><strong class="text-emerald-700">Guided Filter Refinement:</strong> Edge-aware alpha matting that builds on the edges already resolved upstream.</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold text-slate-900">Format &amp; Colour Conversion</td>
-                            <td>Sequential, in-memory conversions on full frames, so memory grew with image size.</td>
-                            <td><strong class="text-emerald-700">pyVips:</strong> Demand-driven, multi-threaded processing with lossless conversion, so memory stays flat as resolution grows.</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold text-slate-900">Stage Orchestration</td>
-                            <td>Independent stages executed one after another.</td>
-                            <td><strong class="text-emerald-700">Parallel Execution:</strong> Independent stages run concurrently across CPU cores.</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold text-slate-900">Redundant Work</td>
-                            <td>Background pixels manipulated in several separate passes.</td>
-                            <td><strong class="text-emerald-700">Zeroed Out:</strong> Redundant background manipulation removed entirely.</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold text-slate-900">Service Layer</td>
-                            <td>Processing logic embedded in the application flow.</td>
-                            <td><strong class="text-emerald-700">FastAPI Service:</strong> The pipeline exposed as a standalone API, with CPU-bound work kept off the request loop.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Flow -->
-            <div class="flow text-[11px] text-slate-700">
-                <div class="flow-step"><div class="font-bold text-slate-900">Upload</div><div class="text-slate-500">FastAPI endpoint</div></div>
-                <span class="flow-arrow">&rarr;</span>
-                <div class="flow-step hot"><div class="font-bold text-slate-900">Normalize</div><div class="text-slate-500">pyVips, parallel</div></div>
-                <span class="flow-arrow">&rarr;</span>
-                <div class="flow-step"><div class="font-bold text-slate-900">Edge resolution</div><div class="text-slate-500">upstream steps</div></div>
-                <span class="flow-arrow">&rarr;</span>
-                <div class="flow-step hot"><div class="font-bold text-slate-900">Alpha refinement</div><div class="text-slate-500">guided filter</div></div>
-                <span class="flow-arrow">&rarr;</span>
-                <div class="flow-step"><div class="font-bold text-slate-900">Print-ready PNG</div><div class="text-slate-500">transparent output</div></div>
+        <section class="space-y-2">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">3. Toolkit</h2>
+            <div class="text-xs text-slate-700 space-y-2">
+                <div><span class="font-semibold text-slate-900 mr-2">Computer vision:</span><span class="chip">OpenCV</span><span class="chip">NumPy</span><span class="chip">pyVips</span></div>
+                <div><span class="font-semibold text-slate-900 mr-2">Service:</span><span class="chip">Python</span><span class="chip">FastAPI</span></div>
+                <div><span class="font-semibold text-slate-900 mr-2">Practice:</span><span class="chip">Micro-profiling</span><span class="chip">Parallel processing</span><span class="chip">Quality benchmarking</span></div>
             </div>
         </section>
 
-        <!-- 4. Results -->
         <section class="space-y-3">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">4. Validation &amp; Impact</h2>
-
+            <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">4. Outcomes</h2>
             <div class="overflow-x-auto rounded-lg border border-slate-200">
                 <table class="w-full custom-table text-left border-collapse">
-                    <thead>
-                        <tr>
-                            <th>Metric</th>
-                            <th>Legacy Baseline</th>
-                            <th>Optimized State</th>
-                            <th class="text-right">Net Improvement</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-200">
-                        <tr>
-                            <td class="font-semibold text-slate-900">Image Normalization</td>
-                            <td class="code-font text-slate-600">12 s</td>
-                            <td class="code-font font-bold text-slate-900">3 s</td>
-                            <td class="text-right font-bold text-emerald-600">-75% Time</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold text-slate-900">Background Removal Stage</td>
-                            <td class="code-font text-slate-600">8 s</td>
-                            <td class="code-font font-bold text-slate-900">&lt; 1 s</td>
-                            <td class="text-right font-bold text-emerald-600">&gt;8&times; Faster</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold text-slate-900">Max Input Resolution</td>
-                            <td class="code-font text-slate-600">24 MP</td>
-                            <td class="code-font font-bold text-slate-900">100+ MP</td>
-                            <td class="text-right font-bold text-emerald-600">4&times; Ceiling</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold text-slate-900">Fine-Edge Fidelity</td>
-                            <td class="code-font text-slate-600">Baseline</td>
-                            <td class="code-font font-bold text-slate-900">2 px filaments kept</td>
-                            <td class="text-right font-bold text-emerald-600">No quality loss</td>
-                        </tr>
+                    <thead><tr><th>Metric</th><th>Before</th><th>After</th><th class="text-right">Improvement</th></tr></thead>
+                    <tbody>
+                        <tr><td class="font-semibold text-slate-900">Image normalization</td><td class="code-font text-slate-600">12 s</td><td class="code-font font-bold text-slate-900">3 s</td><td class="text-right font-bold text-emerald-600">-75% Time</td></tr>
+                        <tr><td class="font-semibold text-slate-900">Background removal</td><td class="code-font text-slate-600">8 s</td><td class="code-font font-bold text-slate-900">&lt; 1 s</td><td class="text-right font-bold text-emerald-600">&gt;8&times; Faster</td></tr>
+                        <tr><td class="font-semibold text-slate-900">Max input resolution</td><td class="code-font text-slate-600">24 MP</td><td class="code-font font-bold text-slate-900">100+ MP</td><td class="text-right font-bold text-emerald-600">4&times; Ceiling</td></tr>
+                        <tr><td class="font-semibold text-slate-900">Fine-edge fidelity</td><td class="code-font text-slate-600">Baseline</td><td class="code-font font-bold text-slate-900">2 px detail kept</td><td class="text-right font-bold text-emerald-600">No quality loss</td></tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="strategic-card space-y-2 mt-2">
+            <div class="strategic-card space-y-2">
                 <div class="flex items-center space-x-2 text-[#0f2a4a] font-bold text-sm">
-                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                    </svg>
+                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                     <span>Strategic Business Value</span>
                 </div>
                 <ul class="text-xs text-slate-700 space-y-1.5 list-disc pl-5">
-                    <li><strong>Faster Turnaround:</strong> Artwork is ready for production in seconds rather than tens of seconds, so customers aren't left waiting on uploads.</li>
-                    <li><strong>New Product Headroom:</strong> Lifting the ceiling from 24&nbsp;MP to 100+&nbsp;MP makes large-format and high-DPI print jobs possible without manual pre-processing.</li>
-                    <li><strong>Lower Compute Cost:</strong> The speed came from removing redundant work, not from adding hardware, so the same servers now handle larger files.</li>
-                    <li><strong>Reusable Service:</strong> As a FastAPI service, the pipeline can be called from the storefront, admin tools or batch jobs alike.</li>
+                    <li><strong>Faster turnaround:</strong> Artwork is ready for production in seconds, not tens of seconds.</li>
+                    <li><strong>New product headroom:</strong> Large-format, high-DPI jobs now run without manual pre-processing.</li>
+                    <li><strong>Lower compute cost:</strong> Larger files on the same servers, with no hardware upgrade.</li>
                 </ul>
             </div>
 
             <div class="bg-slate-50 border-l-4 border-emerald-500 p-3 text-xs text-slate-700 leading-relaxed rounded-r">
-                <strong>Lesson:</strong> The fastest code is the code you don't run. Profiling showed the heaviest stage was redundant. Replacing it with a lighter step that builds on upstream results beat any amount of tuning the heavy one.
+                <strong>Note:</strong> Implementation details are proprietary to the client. I'm happy to discuss the approach in more depth under NDA.
             </div>
         </section>
 
         <footer class="pt-3 border-t border-slate-200 text-[10px] text-slate-500 flex justify-between items-center">
-            <span>Image Pipeline Optimization Report</span>
-            <span class="code-font">Page 1 of 1</span>
+            <span>Custom Background Removal Case Study</span>
+            <span class="code-font">Python &middot; OpenCV &middot; FastAPI</span>
         </footer>
     </div>
 
@@ -328,33 +184,18 @@
             const element = document.getElementById('case-study-content');
             const originalHTML = btn.innerHTML;
             btn.disabled = true;
-            btn.innerHTML = `
-                <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                <span>Generating PDF...</span>
-            `;
+            btn.innerHTML = '<span>Generating PDF...</span>';
             const restore = () => { btn.disabled = false; btn.innerHTML = originalHTML; };
-
             if (typeof html2pdf !== 'undefined') {
-                const opt = {
-                    margin:      [8, 8, 8, 8],
-                    filename:    'Image_Pipeline_Optimization_Case_Study.pdf',
-                    image:       { type: 'jpeg', quality: 0.98 },
+                html2pdf().set({
+                    margin: [8, 8, 8, 8],
+                    filename: 'Custom_Background_Removal_Case_Study.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
                     html2canvas: { scale: 2, useCORS: true, logging: false },
-                    jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                    pagebreak:   { mode: ['css', 'legacy'] }
-                };
-                html2pdf().set(opt).from(element).save().then(restore).catch(err => {
-                    console.error('PDF export error:', err);
-                    restore();
-                    window.print();
-                });
-            } else {
-                restore();
-                window.print();
-            }
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                    pagebreak: { mode: ['css', 'legacy'], avoid: ['tr', '.cap-card'] }
+                }).from(element).save().then(restore).catch(err => { console.error(err); restore(); window.print(); });
+            } else { restore(); window.print(); }
         }
     </script>
 </body>

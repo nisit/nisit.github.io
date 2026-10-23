@@ -1345,7 +1345,7 @@ footer p {
 
 .perf-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
 	gap: 2.5rem;
 	align-items: stretch;
 }
